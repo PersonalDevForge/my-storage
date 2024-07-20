@@ -22,4 +22,9 @@ public class UserSearchService implements GetUserProfileUseCase {
         return getUser(userId);
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        return userQueryPort.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
+    }
+
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.c4marathon.assignment.user.domain.entity.User;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +17,9 @@ public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne()
+    private User user;
 
     private String path;
 

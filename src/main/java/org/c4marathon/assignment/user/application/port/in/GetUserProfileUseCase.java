@@ -6,4 +6,6 @@ public interface GetUserProfileUseCase {
 
     User getUserProfile(Long userId);
 
+    User getUserByEmail(String email);
+
 }
