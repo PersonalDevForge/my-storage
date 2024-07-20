@@ -27,7 +27,7 @@ public class UserJoinService implements JoinUserUseCase {
             throw new IllegalAccessException("email already exists");
         }
 
-        userCommandPort.save(User.of(name, email, password));
+        userCommandPort.save(User.of(email, name, password));
     }
 
 }
