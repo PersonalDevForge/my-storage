@@ -20,7 +20,7 @@ public class RenameFolderService implements RenameFolderUseCase {
 
     private final FolderCommandPort folderCommandPort;
 
-    private void renameActualFolder(Folder folder, String newFolderName) {
+    private String renameActualFolder(Folder folder, String newFolderName) {
         File file = new File(folder.getPath());
         File existingFolder = new File(file.getParent() + File.separator + newFolderName);
 
@@ -31,6 +31,8 @@ public class RenameFolderService implements RenameFolderUseCase {
         if (!file.renameTo(existingFolder)) {
             throw new IllegalArgumentException("Failed to create folder");
         }
+
+        return existingFolder.getPath();
     }
 
     @Override
@@ -39,8 +41,8 @@ public class RenameFolderService implements RenameFolderUseCase {
             throw new IllegalArgumentException("Folder already exists");
         });
         Folder folder = folderSearchService.findById(user, folderId);
-        renameActualFolder(folder, newFolderName);
-        folder.rename(newFolderName);
+        String newPath = renameActualFolder(folder, newFolderName);
+        folder.rename(newFolderName, newPath);
         folderCommandPort.update(folder);
     }
 
