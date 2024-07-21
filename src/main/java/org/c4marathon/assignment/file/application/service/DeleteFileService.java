@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.DeleteFileUseCase;
 import org.c4marathon.assignment.file.application.port.out.FileCommandPort;
 import org.c4marathon.assignment.file.domain.entity.File;
+import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,8 +24,8 @@ public class DeleteFileService implements DeleteFileUseCase {
     }
 
     @Override
-    public void deleteFile(String email, String filename) {
-        File file = fileSearchService.getFile(email, filename);
+    public void deleteFile(User user, String filename) {
+        File file = fileSearchService.getFile(user, filename);
 
         removeFromDisk(file);
         fileCommandPort.delete(file);

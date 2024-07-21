@@ -10,8 +10,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class WriteFileService {
 
-    public String writeFile(String email, String uuidFileName, String type, byte[] file) {
-        String uploadServerPath = "src/main/resources/upload/" + email;
+    public String writeFile(String folderPath, String uuidFileName, String type, byte[] file) {
+        String uploadServerPath = folderPath;
         String uploadServerFilePath = uploadServerPath + "/" + uuidFileName + "." + type;
         File uploadServerDir = new File(uploadServerPath);
         File uploadServerFile = new File(uploadServerFilePath);

@@ -7,6 +7,9 @@ import org.c4marathon.assignment.file.adapter.in.dto.GetFileListRequestDto;
 import org.c4marathon.assignment.file.application.port.in.GetFileListUseCase;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.global.response.ApiResponse;
+import org.c4marathon.assignment.user.application.port.in.GetUserProfileUseCase;
+import org.c4marathon.assignment.user.application.service.UserSearchService;
+import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +22,12 @@ public class GetFileController {
 
     private final GetFileListUseCase getFileListUseCase;
 
+    private final GetUserProfileUseCase getUserProfileUseCase;
+
     @GetMapping("/list")
     public ResponseEntity<ApiResponse<List<File>>> getFileList(@NotBlank @RequestParam("email") String email) {
-        List<File> fileList = getFileListUseCase.getFileList(email);
+        User user = getUserProfileUseCase.getUserByEmail(email);
+        List<File> fileList = getFileListUseCase.getFileList(user);
         return ResponseEntity.ok(ApiResponse.success(fileList));
     }
 
