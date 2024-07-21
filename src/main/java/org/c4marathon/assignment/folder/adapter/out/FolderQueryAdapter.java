@@ -27,6 +27,16 @@ public class FolderQueryAdapter implements FolderQueryPort {
     }
 
     @Override
+    public Optional<Folder> findByUserAndParentFolderIdAndFolderName(User user, Long parentFolderId, String folderName) {
+        Optional<Folder> parentFolder = findByUserAndId(user, parentFolderId);
+        if (parentFolder.isPresent()) {
+            return folderRepository.findByUserAndParentFolderAndFolderName(user, parentFolder.get(), folderName);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public List<Folder> findByUserAndParentFolderId(User user, Long parentFolderId) {
         Optional<Folder> parentFolder = findByUserAndId(user, parentFolderId);
         if (parentFolder.isPresent()) {
