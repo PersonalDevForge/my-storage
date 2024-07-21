@@ -9,7 +9,7 @@ public interface GetFileListUseCase {
 
     List<File> getFileList(User user);
 
-    File getFile(User user, String fileName);
+    File getFile(User user, Long fileId);
 
     List<File> getFileListByFolder(User user, Long folderId);
 

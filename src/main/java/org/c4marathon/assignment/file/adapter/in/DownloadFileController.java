@@ -1,8 +1,11 @@
 package org.c4marathon.assignment.file.adapter.in;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.DownloadFileUseCase;
+import org.c4marathon.assignment.folder.application.service.FolderSearchService;
+import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.application.port.in.GetUserProfileUseCase;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.core.io.Resource;
@@ -29,11 +32,13 @@ public class DownloadFileController {
 
     private final GetUserProfileUseCase getUserProfileUseCase;
 
+    private final FolderSearchService folderSearchService;
+
     @GetMapping
     public ResponseEntity<Resource> downloadFile(@NotBlank @Param("email") String email,
-                                                 @NotBlank @Param("fileName") String fileName) {
+                                                 @Positive @Param("fileId") Long fileId) {
         User user = getUserProfileUseCase.getUserByEmail(email);
-        String pathString = downloadFileUseCase.downloadFile(user, fileName);
+        String pathString = downloadFileUseCase.downloadFile(user, fileId);
         Path path = Path.of(pathString).toAbsolutePath().normalize();
 
         try {

@@ -27,7 +27,6 @@ public class Folder {
     private String folderName;
 
     @Column(unique = true)
-    @Size(max = 5000)
     private String path;
 
     private Folder(User user, Folder parentFolder, String folderName, String path) {

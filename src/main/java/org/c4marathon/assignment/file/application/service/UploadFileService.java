@@ -39,7 +39,7 @@ public class UploadFileService implements UploadFileUseCase {
         Folder folder = folderSearchService.findById(user, folderId);
 
         // 중복 파일을 체크한다.
-        if (fileQueryPort.findByUserAndFileName(user, fileName).isPresent()) {
+        if (fileQueryPort.findByUserAndFileNameAndFolder(user, fileName, folder).isPresent()) {
             throw new IllegalArgumentException("File already exists");
         }
 

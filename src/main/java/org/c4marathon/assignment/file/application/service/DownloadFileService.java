@@ -13,8 +13,8 @@ public class DownloadFileService implements DownloadFileUseCase {
     private final FileSearchService fileSearchService;
 
     @Override
-    public String downloadFile(User user, String fileName) {
-        File file = fileSearchService.getFile(user, fileName);
+    public String downloadFile(User user, Long fileId) {
+        File file = fileSearchService.getFile(user, fileId);
         return file.getPath();
     }
 }

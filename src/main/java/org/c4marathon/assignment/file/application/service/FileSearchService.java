@@ -26,8 +26,8 @@ public class FileSearchService implements GetFileListUseCase {
     }
 
     @Override
-    public File getFile(User user, String fileName) {
-        return fileQueryPort.findByUserAndFileName(user, fileName)
+    public File getFile(User user, Long fileId) {
+        return fileQueryPort.findByUserAndId(user, fileId)
                 .orElseThrow(() -> new NotFoundException("File not found"));
     }
 

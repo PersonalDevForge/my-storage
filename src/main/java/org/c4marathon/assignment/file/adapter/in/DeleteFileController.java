@@ -1,6 +1,7 @@
 package org.c4marathon.assignment.file.adapter.in;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.DeleteFileUseCase;
 import org.c4marathon.assignment.global.response.ApiResponse;
@@ -23,9 +24,9 @@ public class DeleteFileController {
 
     @DeleteMapping
     public ResponseEntity<ApiResponse<Void>> deleteFile(@NotBlank @Param("email") String email,
-                                                        @NotBlank @Param("fileName") String fileName) {
+                                                        @Positive @Param("fileId") Long fileId) {
         User user = getUserProfileUseCase.getUserByEmail(email);
-        deleteFileUseCase.deleteFile(user, fileName);
+        deleteFileUseCase.deleteFile(user, fileId);
 
         return ResponseEntity.ok(ApiResponse.success());
     }
