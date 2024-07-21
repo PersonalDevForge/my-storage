@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.UploadFileUseCase;
 import org.c4marathon.assignment.file.application.port.out.FileCommandPort;
+import org.c4marathon.assignment.file.application.port.out.FileQueryPort;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.user.application.service.UserSearchService;
 import org.c4marathon.assignment.user.domain.entity.User;
@@ -18,6 +19,8 @@ import java.util.UUID;
 public class UploadFileService implements UploadFileUseCase {
 
     private final UserSearchService userSearchService;
+
+    private final FileQueryPort fileQueryPort;
 
     private final FileCommandPort fileCommandPort;
 
@@ -38,6 +41,11 @@ public class UploadFileService implements UploadFileUseCase {
         String type = nameAndExtension.getSecond();
         String uuidFileName = UUID.randomUUID().toString();
         Long size = (long) file.length;
+
+        // 중복 파일을 체크한다.
+        if (fileQueryPort.findByUserAndFilename(fileOwner, originalFileName).isPresent()) {
+            throw new IllegalArgumentException("File already exists");
+        }
 
         // 파일을 저장하고 저장된 파일의 경로를 반환한다.
         String uploadPath = writeFileService.writeFile(email, uuidFileName, type, file);
