@@ -8,6 +8,7 @@ import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,6 +19,11 @@ public class FileQueryAdapter implements FileQueryPort {
     @Override
     public List<File> findAllByUser(User user) {
         return fileRepository.findAllByUser(user);
+    }
+
+    @Override
+    public Optional<File> findByUserAndFilename(User user, String filename) {
+        return fileRepository.findByUserAndFilename(user, filename);
     }
 
 }

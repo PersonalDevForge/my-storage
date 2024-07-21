@@ -8,4 +8,6 @@ public interface GetFileListUseCase {
 
     List<File> getFileList(String email);
 
+    File getFile(String email, String fileName);
+
 }
