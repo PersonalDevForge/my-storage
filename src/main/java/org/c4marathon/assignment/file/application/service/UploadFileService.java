@@ -26,24 +26,20 @@ public class UploadFileService implements UploadFileUseCase {
 
     private final WriteFileService writeFileService;
 
-    private Pair<String, String> extractFileNameAndExtension(String fileName) {
-        String name = fileName.substring(0, fileName.indexOf('.'));
-        String extension = fileName.substring(fileName.indexOf('.') + 1);
-        return Pair.of(name, extension);
+    private String extractExtension(String fileName) {
+        return fileName.substring(fileName.indexOf('.') + 1);
     }
 
     @Override
     @Transactional
     public void uploadFile(String email, String fileName, byte[] file) {
         User fileOwner = userSearchService.getUserByEmail(email);
-        Pair<String, String> nameAndExtension = extractFileNameAndExtension(fileName);
-        String originalFileName = nameAndExtension.getFirst();
-        String type = nameAndExtension.getSecond();
+        String type = extractExtension(fileName);
         String uuidFileName = UUID.randomUUID().toString();
         Long size = (long) file.length;
 
         // 중복 파일을 체크한다.
-        if (fileQueryPort.findByUserAndFilename(fileOwner, originalFileName).isPresent()) {
+        if (fileQueryPort.findByUserAndFilename(fileOwner, fileName).isPresent()) {
             throw new IllegalArgumentException("File already exists");
         }
 
@@ -51,7 +47,7 @@ public class UploadFileService implements UploadFileUseCase {
         String uploadPath = writeFileService.writeFile(email, uuidFileName, type, file);
 
         // 메타 정보를 저장한다.
-        File metaData = File.of(fileOwner, uploadPath, uuidFileName, originalFileName, type, size, LocalDateTime.now());
+        File metaData = File.of(fileOwner, uploadPath, uuidFileName, fileName, type, size, LocalDateTime.now());
         fileCommandPort.save(metaData);
     }
 

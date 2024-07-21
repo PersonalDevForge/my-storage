@@ -18,7 +18,7 @@ public class DownloadFileService implements DownloadFileUseCase {
     @Override
     public String downloadFile(String email, String filename) {
         User user = userSearchService.getUserByEmail(email);
-        File file = fileSearchService.getFile(email, filename.substring(0, filename.indexOf('.')));
+        File file = fileSearchService.getFile(email, filename);
         return file.getPath();
     }
 }
