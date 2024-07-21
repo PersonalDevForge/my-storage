@@ -30,13 +30,17 @@ public class UploadFileService implements UploadFileUseCase {
         return fileName.substring(fileName.indexOf('.') + 1);
     }
 
+    private String makeDefaultFilePath(String email) {
+        return "src/main/resources/upload/" + email;
+    }
+
     @Override
     @Transactional
     public void uploadFile(User user, String fileName, Long folderId, byte[] file) {
         String type = extractExtension(fileName);
         String uuidFileName = UUID.randomUUID().toString();
         Long size = (long) file.length;
-        Folder folder = folderSearchService.findById(user, folderId);
+        Folder folder = folderId == null ? null : folderSearchService.findById(user, folderId);
 
         // 중복 파일을 체크한다.
         if (fileQueryPort.findByUserAndFileNameAndFolder(user, fileName, folder).isPresent()) {
@@ -44,7 +48,7 @@ public class UploadFileService implements UploadFileUseCase {
         }
 
         // 파일을 저장하고 저장된 파일의 경로를 반환한다.
-        String uploadPath = writeFileService.writeFile(folder.getPath(), uuidFileName, type, file);
+        String uploadPath = writeFileService.writeFile(folder != null ? folder.getPath() : makeDefaultFilePath(user.getEmail()), uuidFileName, type, file);
 
         // 메타 정보를 저장한다.
         File metaData = File.of(user, folder, uploadPath, uuidFileName, fileName, type, size, LocalDateTime.now());
