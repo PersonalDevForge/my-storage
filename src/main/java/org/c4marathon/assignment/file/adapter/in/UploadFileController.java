@@ -8,6 +8,8 @@ import org.apache.coyote.Response;
 import org.c4marathon.assignment.file.application.port.in.UploadFileUseCase;
 import org.c4marathon.assignment.global.response.ApiResponse;
 import org.c4marathon.assignment.global.response.enums.ResultCode;
+import org.c4marathon.assignment.user.application.port.in.GetUserProfileUseCase;
+import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +24,15 @@ public class UploadFileController {
 
     private final UploadFileUseCase uploadFileUseCase;
 
+    private final GetUserProfileUseCase getUserProfileUseCase;
+
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> uploadFile(@NotBlank @RequestParam("email") String email,
                                                         @NotEmpty @RequestParam("file") MultipartFile file,
                                                         @Positive @RequestParam("folderId") Long folderId) {
         try {
-            uploadFileUseCase.uploadFile(email, file.getOriginalFilename(), folderId, file.getBytes());
+            User user = getUserProfileUseCase.getUserByEmail(email);
+            uploadFileUseCase.uploadFile(user, file.getOriginalFilename(), folderId, file.getBytes());
             return ResponseEntity.ok(ApiResponse.success());
         } catch (Exception e) {
             return ResponseEntity.ok(ApiResponse.failure(ResultCode.BAD_REQUEST, "Failed to upload file: " + e.getMessage()));

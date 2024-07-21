@@ -1,7 +1,9 @@
 package org.c4marathon.assignment.file.application.port.in;
 
+import org.c4marathon.assignment.user.domain.entity.User;
+
 public interface DeleteFileUseCase {
 
-    void deleteFile(String email, String filename);
+    void deleteFile(User user, String filename);
 
 }

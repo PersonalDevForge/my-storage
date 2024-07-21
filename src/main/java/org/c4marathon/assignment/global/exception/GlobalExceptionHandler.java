@@ -18,4 +18,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404).body(ApiResponse.failure(ResultCode.NOT_FOUND, e.getMessage()));
     }
 
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<Void>> handleIllegalArgumentException(IllegalArgumentException e) {
+        log.error("Entity Illegal Argument Exception Occurred: {}", e.getMessage());
+        return ResponseEntity.status(404).body(ApiResponse.failure(ResultCode.BAD_REQUEST, e.getMessage()));
+    }
+
 }

@@ -16,9 +16,8 @@ public class DownloadFileService implements DownloadFileUseCase {
     private final FileSearchService fileSearchService;
 
     @Override
-    public String downloadFile(String email, String filename) {
-        User user = userSearchService.getUserByEmail(email);
-        File file = fileSearchService.getFile(email, filename);
+    public String downloadFile(User user, String filename) {
+        File file = fileSearchService.getFile(user, filename);
         return file.getPath();
     }
 }
