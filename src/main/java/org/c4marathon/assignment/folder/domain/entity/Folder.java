@@ -37,8 +37,9 @@ public class Folder {
         return new Folder(user, parentFolder, folderName, path);
     }
 
-    public void rename(String newFolderName) {
+    public void rename(String newFolderName, String newPath) {
         this.folderName = newFolderName;
+        this.path = newPath;
     }
 
 }
