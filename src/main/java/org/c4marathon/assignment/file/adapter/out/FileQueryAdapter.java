@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.out.FileQueryPort;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.file.infrastructure.repository.FileRepository;
+import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,11 @@ public class FileQueryAdapter implements FileQueryPort {
     @Override
     public Optional<File> findByUserAndFilename(User user, String filename) {
         return fileRepository.findByUserAndFilename(user, filename);
+    }
+
+    @Override
+    public List<File> findAllByUserAndFolder(User user, Folder folder) {
+        return fileRepository.findAllByUserAndFolder(user, folder);
     }
 
 }

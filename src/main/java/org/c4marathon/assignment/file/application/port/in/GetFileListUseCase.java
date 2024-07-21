@@ -10,4 +10,6 @@ public interface GetFileListUseCase {
 
     File getFile(String email, String fileName);
 
+    List<File> getFileListByFolder(String email, Long folderId);
+
 }

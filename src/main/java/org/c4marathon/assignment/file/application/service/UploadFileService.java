@@ -6,6 +6,8 @@ import org.c4marathon.assignment.file.application.port.in.UploadFileUseCase;
 import org.c4marathon.assignment.file.application.port.out.FileCommandPort;
 import org.c4marathon.assignment.file.application.port.out.FileQueryPort;
 import org.c4marathon.assignment.file.domain.entity.File;
+import org.c4marathon.assignment.folder.application.service.FolderSearchService;
+import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.application.service.UserSearchService;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.data.util.Pair;
@@ -26,17 +28,20 @@ public class UploadFileService implements UploadFileUseCase {
 
     private final WriteFileService writeFileService;
 
+    private final FolderSearchService folderSearchService;
+
     private String extractExtension(String fileName) {
         return fileName.substring(fileName.indexOf('.') + 1);
     }
 
     @Override
     @Transactional
-    public void uploadFile(String email, String fileName, byte[] file) {
+    public void uploadFile(String email, String fileName, Long folderId, byte[] file) {
         User fileOwner = userSearchService.getUserByEmail(email);
         String type = extractExtension(fileName);
         String uuidFileName = UUID.randomUUID().toString();
         Long size = (long) file.length;
+        Folder folder = folderSearchService.findById(folderId);
 
         // 중복 파일을 체크한다.
         if (fileQueryPort.findByUserAndFilename(fileOwner, fileName).isPresent()) {
@@ -47,7 +52,7 @@ public class UploadFileService implements UploadFileUseCase {
         String uploadPath = writeFileService.writeFile(email, uuidFileName, type, file);
 
         // 메타 정보를 저장한다.
-        File metaData = File.of(fileOwner, uploadPath, uuidFileName, fileName, type, size, LocalDateTime.now());
+        File metaData = File.of(fileOwner, folder, uploadPath, uuidFileName, fileName, type, size, LocalDateTime.now());
         fileCommandPort.save(metaData);
     }
 

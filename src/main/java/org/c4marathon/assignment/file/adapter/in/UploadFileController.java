@@ -2,6 +2,7 @@ package org.c4marathon.assignment.file.adapter.in;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.c4marathon.assignment.file.application.port.in.UploadFileUseCase;
@@ -23,9 +24,10 @@ public class UploadFileController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> uploadFile(@NotBlank @RequestParam("email") String email,
-                                                  @NotEmpty @RequestParam("file") MultipartFile file) {
+                                                        @NotEmpty @RequestParam("file") MultipartFile file,
+                                                        @Positive @RequestParam("folderId") Long folderId) {
         try {
-            uploadFileUseCase.uploadFile(email, file.getOriginalFilename(), file.getBytes());
+            uploadFileUseCase.uploadFile(email, file.getOriginalFilename(), folderId, file.getBytes());
             return ResponseEntity.ok(ApiResponse.success());
         } catch (Exception e) {
             return ResponseEntity.ok(ApiResponse.failure(ResultCode.BAD_REQUEST, "Failed to upload file: " + e.getMessage()));
