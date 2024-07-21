@@ -5,7 +5,6 @@ import org.c4marathon.assignment.file.application.port.in.GetFileListUseCase;
 import org.c4marathon.assignment.file.application.port.out.FileQueryPort;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.folder.application.port.out.FolderQueryPort;
-import org.c4marathon.assignment.folder.application.service.FolderSearchService;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.global.exception.customs.NotFoundException;
 import org.c4marathon.assignment.user.domain.entity.User;

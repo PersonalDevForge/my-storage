@@ -19,10 +19,10 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Folder folder;
 
     @Column(unique = true)
@@ -52,6 +52,19 @@ public class File {
 
     public static File of(User user, Folder folder, String path, String uuid, String fileName, String type, Long size, LocalDateTime createdAt) {
         return new File(user, folder, path, uuid, fileName, type, size, createdAt);
+    }
+
+    public void move(Folder folder) {
+        this.folder = folder;
+        updatePath();
+    }
+
+    public void updatePath() {
+        if (this.folder == null) {
+            this.path = "src/main/resources/upload/" + this.user.getEmail() + "/" + this.uuid + "." + this.type;
+            return;
+        }
+        this.path = this.folder.getPath() + "/" + this.uuid + "." + this.type;
     }
 
 }
