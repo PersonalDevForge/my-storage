@@ -22,7 +22,7 @@ public class MakeFolderService implements MakeFolderUseCase {
 
     @Override
     public void makeFolder(User user, String folderName, Long parentFolderId) {
-        if (folderQueryPort.findByUserAndName(user, folderName).isPresent()) {
+        if (folderQueryPort.findByUserAndParentFolderIdAndFolderName(user, parentFolderId, folderName).isPresent()) {
             throw new IllegalArgumentException("Folder already exists");
         }
         Folder parentFolder;

@@ -12,6 +12,8 @@ public interface FolderQueryPort {
 
     List<Folder> findByUserAndParentFolder(User user, Folder parentFolder);
 
+    Optional<Folder> findByUserAndParentFolderIdAndFolderName(User user, Long parentFolderId, String folderName);
+
     List<Folder> findByUserAndParentFolderId(User user, Long parentFolderId);
 
     Optional<Folder> findByUserAndPath(User user, String path);

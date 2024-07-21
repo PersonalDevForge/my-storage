@@ -1,17 +1,17 @@
 package org.c4marathon.assignment.file.adapter.in;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import org.c4marathon.assignment.file.adapter.in.dto.GetFileListRequestDto;
 import org.c4marathon.assignment.file.application.port.in.GetFileListUseCase;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.global.response.ApiResponse;
 import org.c4marathon.assignment.user.application.port.in.GetUserProfileUseCase;
-import org.c4marathon.assignment.user.application.service.UserSearchService;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

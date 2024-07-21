@@ -25,11 +25,12 @@ public class File {
     @ManyToOne(fetch = FetchType.LAZY)
     private Folder folder;
 
+    @Column(unique = true)
     private String path;
 
     private String uuid;
 
-    private String filename;
+    private String fileName;
 
     private String type;
 
@@ -37,20 +38,20 @@ public class File {
 
     private LocalDateTime createdAt;
 
-    private File(User user, Folder folder, String path, String uuid, String filename, String type, Long size, LocalDateTime createdAt) {
+    private File(User user, Folder folder, String path, String uuid, String fileName, String type, Long size, LocalDateTime createdAt) {
         this.id = null;
         this.user = user;
         this.folder = folder;
         this.path = path;
         this.uuid = uuid;
-        this.filename = filename;
+        this.fileName = fileName;
         this.type = type;
         this.size = size;
         this.createdAt = createdAt;
     }
 
-    public static File of(User user, Folder folder, String path, String uuid, String filename, String type, Long size, LocalDateTime createdAt) {
-        return new File(user, folder, path, uuid, filename, type, size, createdAt);
+    public static File of(User user, Folder folder, String path, String uuid, String fileName, String type, Long size, LocalDateTime createdAt) {
+        return new File(user, folder, path, uuid, fileName, type, size, createdAt);
     }
 
 }

@@ -11,7 +11,11 @@ public interface FileQueryPort {
 
     List<File> findAllByUser(User user);
 
-    Optional<File> findByUserAndFilename(User user, String filename);
+    Optional<File> findByUserAndId(User user, Long id);
+
+    Optional<File> findByUserAndFileNameAndFolder(User user, String fileName, Folder folder);
+
+    Optional<File> findByPath(String path);
 
     List<File> findAllByUserAndFolder(User user, Folder folder);
 

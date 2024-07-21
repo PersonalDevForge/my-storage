@@ -2,8 +2,6 @@ package org.c4marathon.assignment.folder.adapter.in.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.c4marathon.assignment.file.domain.entity.File;
-import org.c4marathon.assignment.folder.domain.entity.Folder;
 
 import java.util.List;
 

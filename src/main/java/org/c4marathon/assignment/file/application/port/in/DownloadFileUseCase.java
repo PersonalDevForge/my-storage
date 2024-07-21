@@ -4,6 +4,6 @@ import org.c4marathon.assignment.user.domain.entity.User;
 
 public interface DownloadFileUseCase {
 
-    String downloadFile(User user, String fileName);
+    String downloadFile(User user, Long fileId);
 
 }

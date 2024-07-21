@@ -37,7 +37,7 @@ public class SimpleFileDto {
     public static SimpleFileDto from(File file) {
         return SimpleFileDto.builder()
                 .id(file.getId())
-                .fileName(file.getFilename())
+                .fileName(file.getFileName())
                 .fileType(file.getType())
                 .fileSize(file.getSize())
                 .folderId(file.getFolder().getId())

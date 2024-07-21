@@ -1,9 +1,11 @@
 package org.c4marathon.assignment.folder.domain.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.c4marathon.assignment.user.domain.entity.User;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Entity
@@ -21,8 +23,10 @@ public class Folder {
     @ManyToOne(fetch = FetchType.LAZY)
     private Folder parentFolder;
 
+    @Length(max = 255)
     private String folderName;
 
+    @Column(unique = true)
     private String path;
 
     private Folder(User user, Folder parentFolder, String folderName, String path) {
