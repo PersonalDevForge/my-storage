@@ -31,9 +31,9 @@ public class DownloadFileController {
 
     @GetMapping
     public ResponseEntity<Resource> downloadFile(@NotBlank @Param("email") String email,
-                                                 @NotBlank @Param("filename") String filename) {
+                                                 @NotBlank @Param("fileName") String fileName) {
         User user = getUserProfileUseCase.getUserByEmail(email);
-        String pathString = downloadFileUseCase.downloadFile(user, filename);
+        String pathString = downloadFileUseCase.downloadFile(user, fileName);
         Path path = Path.of(pathString).toAbsolutePath().normalize();
 
         try {

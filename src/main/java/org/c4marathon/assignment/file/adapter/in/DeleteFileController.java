@@ -23,9 +23,9 @@ public class DeleteFileController {
 
     @DeleteMapping
     public ResponseEntity<ApiResponse<Void>> deleteFile(@NotBlank @Param("email") String email,
-                                                        @NotBlank @Param("filename") String filename) {
+                                                        @NotBlank @Param("fileName") String fileName) {
         User user = getUserProfileUseCase.getUserByEmail(email);
-        deleteFileUseCase.deleteFile(user, filename);
+        deleteFileUseCase.deleteFile(user, fileName);
 
         return ResponseEntity.ok(ApiResponse.success());
     }

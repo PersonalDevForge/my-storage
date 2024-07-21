@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.c4marathon.assignment.file.application.port.in.UploadFileUseCase;
 import org.c4marathon.assignment.global.response.ApiResponse;
 import org.c4marathon.assignment.global.response.enums.ResultCode;

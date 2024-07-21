@@ -24,8 +24,8 @@ public class DeleteFileService implements DeleteFileUseCase {
     }
 
     @Override
-    public void deleteFile(User user, String filename) {
-        File file = fileSearchService.getFile(user, filename);
+    public void deleteFile(User user, String fileName) {
+        File file = fileSearchService.getFile(user, fileName);
 
         removeFromDisk(file);
         fileCommandPort.delete(file);

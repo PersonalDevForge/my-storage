@@ -23,8 +23,8 @@ public class FileQueryAdapter implements FileQueryPort {
     }
 
     @Override
-    public Optional<File> findByUserAndFilename(User user, String filename) {
-        return fileRepository.findByUserAndFilename(user, filename);
+    public Optional<File> findByUserAndFileName(User user, String fileName) {
+        return fileRepository.findByUserAndFileName(user, fileName);
     }
 
     @Override
