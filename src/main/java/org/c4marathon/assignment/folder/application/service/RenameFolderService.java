@@ -1,5 +1,6 @@
 package org.c4marathon.assignment.folder.application.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.folder.application.port.in.RenameFolderUseCase;
 import org.c4marathon.assignment.folder.application.port.out.FolderCommandPort;
@@ -9,6 +10,7 @@ import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,8 @@ public class RenameFolderService implements RenameFolderUseCase {
     private final FolderQueryPort folderQueryPort;
 
     private final FolderCommandPort folderCommandPort;
+
+    private final UpdatePathService updatePathService;
 
     private String renameActualFolder(Folder folder, String newFolderName) {
         File file = new File(folder.getPath());
@@ -36,6 +40,7 @@ public class RenameFolderService implements RenameFolderUseCase {
     }
 
     @Override
+    @Transactional
     public void renameFolder(User user, Long folderId, String newFolderName) {
         folderQueryPort.findByUserAndName(user, newFolderName).ifPresent(folder -> {
             throw new IllegalArgumentException("Folder already exists");
@@ -43,7 +48,7 @@ public class RenameFolderService implements RenameFolderUseCase {
         Folder folder = folderSearchService.findById(user, folderId);
         String newPath = renameActualFolder(folder, newFolderName);
         folder.rename(newFolderName, newPath);
-        folderCommandPort.update(folder);
+        updatePathService.updatePathInternal(folder);
     }
 
 }

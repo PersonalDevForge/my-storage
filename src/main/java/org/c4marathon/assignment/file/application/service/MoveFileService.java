@@ -20,8 +20,6 @@ public class MoveFileService implements MoveFileUseCase {
     private void applyActualMove(String originPath, File file) {
         java.io.File originFile = new java.io.File(originPath);
         java.io.File destFile = new java.io.File(file.getPath());
-        System.out.println("originFile: " + originFile);
-        System.out.println("destFile: " + destFile);
         if (destFile.exists()) {
             throw new IllegalArgumentException("File already exists");
         } else if (!originFile.exists()) {

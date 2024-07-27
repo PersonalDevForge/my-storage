@@ -46,4 +46,14 @@ public class Folder {
         this.path = newPath;
     }
 
+    public void updatePath(Folder parentFolder, String updatePath) {
+        if (parentFolder == null) {
+            this.path = updatePath + "/" + this.folderName;
+            this.parentFolder = null;
+            return;
+        }
+        this.parentFolder = parentFolder;
+        this.path = updatePath + "/" + this.folderName;
+    }
+
 }

@@ -23,7 +23,7 @@ public class FolderQueryAdapter implements FolderQueryPort {
 
     @Override
     public List<Folder> findByUserAndParentFolder(User user, Folder parentFolder) {
-        return folderRepository.findByUserAndParentFolder(user, parentFolder);
+        return folderRepository.findAllByUserAndParentFolder(user, parentFolder);
     }
 
     @Override
@@ -39,13 +39,13 @@ public class FolderQueryAdapter implements FolderQueryPort {
     @Override
     public List<Folder> findByUserAndParentFolderId(User user, Long parentFolderId) {
         if (parentFolderId == null) {
-            return folderRepository.findByUserAndParentFolder(user, null);
+            return folderRepository.findAllByUserAndParentFolder(user, null);
         } else {
             Optional<Folder> parentFolder = findByUserAndId(user, parentFolderId);
             if (parentFolder.isEmpty()) {
                 return List.of();
             }
-            return folderRepository.findByUserAndParentFolder(user, parentFolder.get());
+            return folderRepository.findAllByUserAndParentFolder(user, parentFolder.get());
         }
     }
 
