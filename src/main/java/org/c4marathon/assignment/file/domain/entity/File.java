@@ -38,6 +38,8 @@ public class File {
 
     private LocalDateTime createdAt;
 
+    private LocalDateTime updatedAt;
+
     private File(User user, Folder folder, String path, String uuid, String fileName, String type, Long size, LocalDateTime createdAt) {
         this.id = null;
         this.user = user;
@@ -48,6 +50,7 @@ public class File {
         this.type = type;
         this.size = size;
         this.createdAt = createdAt;
+        this.updatedAt = createdAt;
     }
 
     public static File of(User user, Folder folder, String path, String uuid, String fileName, String type, Long size, LocalDateTime createdAt) {
@@ -69,6 +72,10 @@ public class File {
             return;
         }
         this.path = this.folder.getPath() + "/" + this.uuid + "." + this.type;
+    }
+
+    public void renewUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
     }
 
 }

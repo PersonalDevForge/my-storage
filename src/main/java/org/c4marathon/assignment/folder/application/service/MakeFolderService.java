@@ -32,7 +32,7 @@ public class MakeFolderService implements MakeFolderUseCase {
             parentFolder = folderSearchService.findById(user, parentFolderId);
         }
         String path = writeFolderService.writeFolder(user.getEmail(), folderName, parentFolder == null ? null : parentFolder.getPath());
-        Folder folder = Folder.of(user, parentFolder, folderName, path);
+        Folder folder = Folder.of(user, parentFolder, folderName, path, 0L);
         return folderCommandPort.save(folder);
     }
 
