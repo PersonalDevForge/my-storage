@@ -54,6 +54,10 @@ public class File {
         return new File(user, folder, path, uuid, fileName, type, size, createdAt);
     }
 
+    public static File from(File file, LocalDateTime createdAt) {
+        return new File(file.getUser(), file.getFolder(), file.getPath(), file.getUuid(), file.getFileName(), file.getType(), file.getSize(), createdAt);
+    }
+
     public void move(Folder folder) {
         this.folder = folder;
         updatePath();

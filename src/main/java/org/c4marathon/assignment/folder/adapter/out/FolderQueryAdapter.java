@@ -58,4 +58,10 @@ public class FolderQueryAdapter implements FolderQueryPort {
     public Optional<Folder> findByUserAndName(User user, String folderName) {
         return folderRepository.findByUserAndFolderName(user, folderName);
     }
+
+    @Override
+    public Optional<Folder> findByUserAndFolderNameAndParentFolder(User user, String folderName, Folder parentFolder) {
+        return folderRepository.findByUserAndFolderNameAndParentFolder(user, folderName, parentFolder);
+    }
+
 }

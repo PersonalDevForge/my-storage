@@ -21,7 +21,7 @@ public class MakeFolderService implements MakeFolderUseCase {
     private final WriteFolderService writeFolderService;
 
     @Override
-    public void makeFolder(User user, String folderName, Long parentFolderId) {
+    public Folder makeFolder(User user, String folderName, Long parentFolderId) {
         if (folderQueryPort.findByUserAndParentFolderIdAndFolderName(user, parentFolderId, folderName).isPresent()) {
             throw new IllegalArgumentException("Folder already exists");
         }
@@ -33,6 +33,7 @@ public class MakeFolderService implements MakeFolderUseCase {
         }
         String path = writeFolderService.writeFolder(user.getEmail(), folderName, parentFolder == null ? null : parentFolder.getPath());
         Folder folder = Folder.of(user, parentFolder, folderName, path);
-        folderCommandPort.save(folder);
+        return folderCommandPort.save(folder);
     }
+
 }

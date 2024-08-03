@@ -20,4 +20,6 @@ public interface FolderQueryPort {
 
     Optional<Folder> findByUserAndName(User user, String folderName);
 
+    Optional<Folder> findByUserAndFolderNameAndParentFolder(User user, String folderName, Folder parentFolder);
+
 }
