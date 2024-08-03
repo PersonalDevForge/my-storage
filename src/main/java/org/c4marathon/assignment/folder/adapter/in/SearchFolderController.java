@@ -1,5 +1,6 @@
 package org.c4marathon.assignment.folder.adapter.in;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class SearchFolderController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<SearchFolderResponseDto>> searchFolderById(@NotBlank @Param("email") String email,
-                                                                                 @Positive @Param("folderId") Long folderId) {
+                                                                                 @Nullable @Param("folderId") Long folderId) {
         User user = userSearchService.getUserByEmail(email);
         List<Folder> folders = searchFolderUseCase.findAllSubElementsById(user, folderId);
         List<File> files = getFileListUseCase.getFileListByFolder(user, folderId);

@@ -23,7 +23,7 @@ public class FolderQueryAdapter implements FolderQueryPort {
 
     @Override
     public List<Folder> findByUserAndParentFolder(User user, Folder parentFolder) {
-        return folderRepository.findByUserAndParentFolder(user, parentFolder);
+        return folderRepository.findAllByUserAndParentFolder(user, parentFolder);
     }
 
     @Override
@@ -38,11 +38,14 @@ public class FolderQueryAdapter implements FolderQueryPort {
 
     @Override
     public List<Folder> findByUserAndParentFolderId(User user, Long parentFolderId) {
-        Optional<Folder> parentFolder = findByUserAndId(user, parentFolderId);
-        if (parentFolder.isPresent()) {
-            return folderRepository.findByUserAndParentFolder(user, parentFolder.get());
+        if (parentFolderId == null) {
+            return folderRepository.findAllByUserAndParentFolder(user, null);
         } else {
-            return List.of();
+            Optional<Folder> parentFolder = findByUserAndId(user, parentFolderId);
+            if (parentFolder.isEmpty()) {
+                return List.of();
+            }
+            return folderRepository.findAllByUserAndParentFolder(user, parentFolder.get());
         }
     }
 
@@ -55,4 +58,10 @@ public class FolderQueryAdapter implements FolderQueryPort {
     public Optional<Folder> findByUserAndName(User user, String folderName) {
         return folderRepository.findByUserAndFolderName(user, folderName);
     }
+
+    @Override
+    public Optional<Folder> findByUserAndFolderNameAndParentFolder(User user, String folderName, Folder parentFolder) {
+        return folderRepository.findByUserAndFolderNameAndParentFolder(user, folderName, parentFolder);
+    }
+
 }

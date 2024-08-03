@@ -40,8 +40,8 @@ public class SimpleFileDto {
                 .fileName(file.getFileName())
                 .fileType(file.getType())
                 .fileSize(file.getSize())
-                .folderId(file.getFolder().getId())
-                .folderName(file.getFolder().getFolderName())
+                .folderId( file.getFolder() != null ? file.getFolder().getId() : null)
+                .folderName(file.getFolder() != null ? file.getFolder().getFolderName() : null)
                 .createdAt(file.getCreatedAt())
                 .build();
     }
