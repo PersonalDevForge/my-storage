@@ -23,7 +23,7 @@ public class GetFolderSummaryController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<FolderSummaryResponseDto>> getSummary(@Param("email") String email,
-                                                                            @Param("folderId") String folderId) {
+                                                                            @Param("folderId") Long folderId) {
         User user = getUserProfileUseCase.getUserByEmail(email);
         FolderSummaryResponseDto folderSummaryResponseDto = getFolderSummaryUseCase.getFolderSummary(user, folderId);
         return ResponseEntity.ok(ApiResponse.success(folderSummaryResponseDto));

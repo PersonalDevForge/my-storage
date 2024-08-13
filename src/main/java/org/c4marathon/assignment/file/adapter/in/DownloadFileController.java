@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.DownloadFileUseCase;
 import org.c4marathon.assignment.folder.application.service.FolderSearchService;
-import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.application.port.in.GetUserProfileUseCase;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.core.io.Resource;

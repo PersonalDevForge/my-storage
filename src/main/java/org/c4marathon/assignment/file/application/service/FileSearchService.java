@@ -11,7 +11,6 @@ import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

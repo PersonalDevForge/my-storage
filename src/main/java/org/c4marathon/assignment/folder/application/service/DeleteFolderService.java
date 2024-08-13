@@ -1,7 +1,6 @@
 package org.c4marathon.assignment.folder.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.c4marathon.assignment.file.application.port.out.FileCommandPort;
 import org.c4marathon.assignment.file.application.service.DeleteFileService;
 import org.c4marathon.assignment.file.application.service.FileSearchService;
 import org.c4marathon.assignment.folder.application.port.in.DeleteFolderUseCase;

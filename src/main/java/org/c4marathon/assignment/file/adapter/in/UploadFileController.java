@@ -3,7 +3,6 @@ package org.c4marathon.assignment.file.adapter.in;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.UploadFileUseCase;
 import org.c4marathon.assignment.global.response.ApiResponse;

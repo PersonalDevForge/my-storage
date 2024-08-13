@@ -10,7 +10,6 @@ import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

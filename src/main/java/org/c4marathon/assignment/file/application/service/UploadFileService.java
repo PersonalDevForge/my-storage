@@ -11,7 +11,6 @@ import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -51,7 +50,7 @@ public class UploadFileService implements UploadFileUseCase {
         String uploadPath = writeFileService.writeFile(folder != null ? folder.getPath() : makeDefaultFilePath(user.getEmail()), uuidFileName, type, file);
 
         // 메타 정보를 저장한다.
-        File metaData = File.of(user, folder, uploadPath, uuidFileName, fileName, type, size, LocalDateTime.now());
+        File metaData = File.of(user, folder, uploadPath, uuidFileName, fileName, type, size);
         fileCommandPort.save(metaData);
     }
 

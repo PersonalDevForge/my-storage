@@ -3,16 +3,16 @@ package org.c4marathon.assignment.folder.domain.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.c4marathon.assignment.global.aop.BaseTimeEntity;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @Table(name = "MS_FOLDER")
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
-public class Folder {
+public class Folder extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,10 +33,6 @@ public class Folder {
 
     private Long folderSize;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
     private Folder(User user, Folder parentFolder, String folderName, String path, Long folderSize) {
         this.id = null;
         this.user = user;
@@ -44,8 +40,6 @@ public class Folder {
         this.folderName = folderName;
         this.path = path;
         this.folderSize = folderSize;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = this.createdAt;
     }
 
     public static Folder of(User user, Folder parentFolder, String folderName, String path, Long folderSize) {
@@ -65,10 +59,6 @@ public class Folder {
         }
         this.parentFolder = parentFolder;
         this.path = updatePath + "/" + this.folderName;
-    }
-
-    public void renewUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
     }
 
 }

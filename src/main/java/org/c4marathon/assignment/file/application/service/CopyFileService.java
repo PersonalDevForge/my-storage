@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -72,7 +71,7 @@ public class CopyFileService implements CopyFileUseCase {
         copyActualFile(originFile, extractPath(originFile.getPath()), uuidFileName, type);
         String copyFileName = extractFileName(originFile.getFileName(), type) + copyString + "." + type;
         String copyPath = extractPath(originFile.getPath()) + uuidFileName + "." + type;
-        File copiedFile = File.of(user, folder, copyPath, uuidFileName, copyFileName, type, size, LocalDateTime.now());
+        File copiedFile = File.of(user, folder, copyPath, uuidFileName, copyFileName, type, size);
         fileCommandPort.save(copiedFile);
     }
 

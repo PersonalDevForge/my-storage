@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +75,7 @@ public class CopyFolderService implements CopyFolderUseCase {
     }
 
     private void copyLogicalFiles(User user, File source, Folder targetFolder) {
-        File childFile = File.of(user, targetFolder, targetFolder.getPath() + "/" + source.getUuid() + "." + source.getType(), source.getUuid(), source.getFileName(), source.getType(), source.getSize(), LocalDateTime.now());
+        File childFile = File.of(user, targetFolder, targetFolder.getPath() + "/" + source.getUuid() + "." + source.getType(), source.getUuid(), source.getFileName(), source.getType(), source.getSize());
         fileCommandPort.save(childFile);
     }
 
