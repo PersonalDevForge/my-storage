@@ -5,24 +5,25 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
+import org.c4marathon.assignment.global.aop.BaseTimeEntity;
 import org.c4marathon.assignment.user.domain.entity.User;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @Table(name = "MS_FILE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class File {
+public class File extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "folder_id")
     private Folder folder;
 
     @Column(unique = true)
@@ -36,9 +37,7 @@ public class File {
 
     private Long size;
 
-    private LocalDateTime createdAt;
-
-    private File(User user, Folder folder, String path, String uuid, String fileName, String type, Long size, LocalDateTime createdAt) {
+    private File(User user, Folder folder, String path, String uuid, String fileName, String type, Long size) {
         this.id = null;
         this.user = user;
         this.folder = folder;
@@ -47,15 +46,14 @@ public class File {
         this.fileName = fileName;
         this.type = type;
         this.size = size;
-        this.createdAt = createdAt;
     }
 
-    public static File of(User user, Folder folder, String path, String uuid, String fileName, String type, Long size, LocalDateTime createdAt) {
-        return new File(user, folder, path, uuid, fileName, type, size, createdAt);
+    public static File of(User user, Folder folder, String path, String uuid, String fileName, String type, Long size) {
+        return new File(user, folder, path, uuid, fileName, type, size);
     }
 
-    public static File from(File file, LocalDateTime createdAt) {
-        return new File(file.getUser(), file.getFolder(), file.getPath(), file.getUuid(), file.getFileName(), file.getType(), file.getSize(), createdAt);
+    public static File from(File file) {
+        return new File(file.getUser(), file.getFolder(), file.getPath(), file.getUuid(), file.getFileName(), file.getType(), file.getSize());
     }
 
     public void move(Folder folder) {

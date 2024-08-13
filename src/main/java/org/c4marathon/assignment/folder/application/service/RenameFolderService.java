@@ -3,6 +3,7 @@ package org.c4marathon.assignment.folder.application.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.folder.application.port.in.RenameFolderUseCase;
+import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
 import org.c4marathon.assignment.folder.application.port.out.FolderCommandPort;
 import org.c4marathon.assignment.folder.application.port.out.FolderQueryPort;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
@@ -10,7 +11,7 @@ import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,8 @@ public class RenameFolderService implements RenameFolderUseCase {
     private final FolderCommandPort folderCommandPort;
 
     private final UpdatePathService updatePathService;
+
+    private final UpdateSummaryUseCase updateSummaryUseCase;
 
     private String renameActualFolder(Folder folder, String newFolderName) {
         File file = new File(folder.getPath());
@@ -49,6 +52,7 @@ public class RenameFolderService implements RenameFolderUseCase {
         String newPath = renameActualFolder(folder, newFolderName);
         folder.rename(newFolderName, newPath);
         updatePathService.updatePathInternal(folder);
+        updateSummaryUseCase.updateSummary(user, folderId, LocalDateTime.now());
     }
 
 }

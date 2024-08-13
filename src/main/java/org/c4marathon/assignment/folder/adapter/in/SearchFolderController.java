@@ -2,7 +2,6 @@ package org.c4marathon.assignment.folder.adapter.in;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.GetFileListUseCase;
 import org.c4marathon.assignment.file.domain.entity.File;
