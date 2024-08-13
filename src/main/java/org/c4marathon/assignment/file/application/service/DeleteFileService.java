@@ -40,7 +40,7 @@ public class DeleteFileService implements DeleteFileUseCase {
         Long folderId = file.getFolder() == null ? null : file.getFolder().getId();
         fileCommandPort.delete(file);
         updateSummaryUseCase.updateSummary(user, folderId, LocalDateTime.now());
-        addUsageUseCase.AddUsageUseCase(user.getId(), fileSize);
+        addUsageUseCase.AddUsageUseCase(user.getId(), -fileSize);
     }
 
 }
