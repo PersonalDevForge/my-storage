@@ -31,19 +31,25 @@ public class Folder extends BaseTimeEntity {
     @Length(max = 5000)
     private String path;
 
+    private Long innerFolderCount;
+
+    private Long innerFileCount;
+
     private Long folderSize;
 
-    private Folder(User user, Folder parentFolder, String folderName, String path, Long folderSize) {
+    private Folder(User user, Folder parentFolder, String folderName, String path, Long innerFolderCount, Long innerFileCount, Long folderSize) {
         this.id = null;
         this.user = user;
         this.parentFolder = parentFolder;
         this.folderName = folderName;
         this.path = path;
+        this.innerFolderCount = innerFolderCount;
+        this.innerFileCount = innerFileCount;
         this.folderSize = folderSize;
     }
 
-    public static Folder of(User user, Folder parentFolder, String folderName, String path, Long folderSize) {
-        return new Folder(user, parentFolder, folderName, path, folderSize);
+    public static Folder of(User user, Folder parentFolder, String folderName, String path, Long innerFolderCount, Long innerFileCount, Long folderSize) {
+        return new Folder(user, parentFolder, folderName, path, innerFolderCount, innerFileCount, folderSize);
     }
 
     public void rename(String newFolderName, String newPath) {
@@ -60,5 +66,28 @@ public class Folder extends BaseTimeEntity {
         this.parentFolder = parentFolder;
         this.path = updatePath + "/" + this.folderName;
     }
+
+    public void incrementInnerFolderCount() {
+        this.innerFolderCount++;
+    }
+
+    public void decrementInnerFolderCount() {
+        if (this.innerFolderCount == 0) {
+            return;
+        }
+        this.innerFolderCount--;
+    }
+
+    public void incrementInnerFileCount() {
+        this.innerFileCount++;
+    }
+
+    public void decrementInnerFileCount() {
+        if (this.innerFileCount == 0) {
+            return;
+        }
+        this.innerFileCount--;
+    }
+
 
 }
