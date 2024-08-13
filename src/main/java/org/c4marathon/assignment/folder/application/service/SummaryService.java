@@ -41,7 +41,7 @@ public class SummaryService implements GetFolderSummaryUseCase {
             }
         }
 
-        return FolderSummaryResponseDto.of(null, (long)folders.size(), (long)files.size(), size, MAX_USER_FILE_SIZE - size, updatedAt);
+        return FolderSummaryResponseDto.of(null, (long)folders.size(), (long)files.size(), size, MAX_USER_FILE_SIZE - size, null, updatedAt);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class SummaryService implements GetFolderSummaryUseCase {
             return getRootFolderSummary(user);
         }
         Folder folder = folderSearchService.findById(user, folderId);
-        return FolderSummaryResponseDto.of(folder.getId(), folder.getInnerFolderCount(), folder.getInnerFileCount(), folder.getFolderSize(), folder.getUpdatedAt());
+        return FolderSummaryResponseDto.of(folder.getId(), folder.getInnerFolderCount(), folder.getInnerFileCount(), folder.getFolderSize(), folder.getCreatedAt(), folder.getUpdatedAt());
     }
 
 }

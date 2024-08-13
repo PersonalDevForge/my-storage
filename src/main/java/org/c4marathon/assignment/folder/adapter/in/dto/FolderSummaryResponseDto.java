@@ -22,14 +22,16 @@ public class FolderSummaryResponseDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final Long remainingSize;
 
+    private final LocalDateTime createdAt;
+
     private final LocalDateTime updatedAt;
 
-    public static FolderSummaryResponseDto of(Long id, Long totalFolders, Long totalFiles, Long totalSize, LocalDateTime updatedAt) {
-        return new FolderSummaryResponseDto(id, totalFolders, totalFiles, totalSize, null, updatedAt);
+    public static FolderSummaryResponseDto of(Long id, Long totalFolders, Long totalFiles, Long totalSize, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new FolderSummaryResponseDto(id, totalFolders, totalFiles, totalSize, null, createdAt, updatedAt);
     }
 
-    public static FolderSummaryResponseDto of(Long id, Long totalFolders, Long totalFiles, Long totalSize, Long remainingSize, LocalDateTime updatedAt) {
-        return new FolderSummaryResponseDto(id, totalFolders, totalFiles, totalSize, remainingSize, updatedAt);
+    public static FolderSummaryResponseDto of(Long id, Long totalFolders, Long totalFiles, Long totalSize, Long remainingSize, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new FolderSummaryResponseDto(id, totalFolders, totalFiles, totalSize, remainingSize, createdAt updatedAt);
     }
 
 }
