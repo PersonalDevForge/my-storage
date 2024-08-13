@@ -19,9 +19,11 @@ public class File extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "folder_id")
     private Folder folder;
 
     @Column(unique = true)

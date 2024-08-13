@@ -21,7 +21,7 @@ public class SummaryService implements GetFolderSummaryUseCase {
 
     private final FileSearchService fileSearchService;
 
-    @Value("${max.user.file.size}")
+    @Value("${user.storage.default.capacity}")
     private Long MAX_USER_FILE_SIZE;
 
     private FolderSummaryResponseDto getRootFolderSummary(User user) {
