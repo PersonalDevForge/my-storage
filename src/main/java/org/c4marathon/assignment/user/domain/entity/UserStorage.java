@@ -30,4 +30,14 @@ public class UserStorage extends BaseTimeEntity {
         return new UserStorage(id, user, capacity, currentUsage);
     }
 
+    public void addUsage(Long usage) {
+        if (this.currentUsage + usage > this.capacity) {
+            throw new IllegalArgumentException("Storage capacity exceeded");
+        } else if (this.currentUsage + usage < 0) {
+            throw new IllegalArgumentException("Negative storage usage");
+        }
+
+        this.currentUsage += usage;
+    }
+
 }
