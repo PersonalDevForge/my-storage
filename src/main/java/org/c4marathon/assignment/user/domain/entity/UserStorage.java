@@ -40,4 +40,12 @@ public class UserStorage extends BaseTimeEntity {
         this.currentUsage += usage;
     }
 
+    public static Boolean isStorageCapacityExceeded(Long capacity, Long currentUsage, Long amount) {
+        return currentUsage + amount > capacity;
+    }
+    
+    public static Boolean isStorageCapacityExceeded(UserStorage userStorage, Long amount) {
+        return userStorage.getCurrentUsage() + amount > userStorage.getCapacity();
+    }
+
 }

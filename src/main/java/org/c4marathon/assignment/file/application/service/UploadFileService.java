@@ -10,6 +10,7 @@ import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase
 import org.c4marathon.assignment.folder.application.service.FolderSearchService;
 import org.c4marathon.assignment.folder.application.service.UpdateSummaryService;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
+import org.c4marathon.assignment.user.application.port.in.AddUsageUseCase;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,8 @@ public class UploadFileService implements UploadFileUseCase {
     private final FolderSearchService folderSearchService;
 
     private final UpdateSummaryUseCase updateSummaryUseCase;
+
+    private final AddUsageUseCase addUsageUseCase;
 
     private String extractExtension(String fileName) {
         return fileName.substring(fileName.indexOf('.') + 1);
@@ -60,6 +63,9 @@ public class UploadFileService implements UploadFileUseCase {
 
         // 폴더의 요약 정보를 업데이트한다.
         updateSummaryUseCase.updateSummary(user, folderId, LocalDateTime.now());
+
+        // 사용량을 업데이트한다.
+        addUsageUseCase.AddUsageUseCase(user.getId(), size);
     }
 
 }

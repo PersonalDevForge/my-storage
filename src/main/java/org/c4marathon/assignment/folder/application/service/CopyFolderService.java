@@ -9,7 +9,10 @@ import org.c4marathon.assignment.folder.application.port.in.MakeFolderUseCase;
 import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
 import org.c4marathon.assignment.folder.application.port.out.FolderQueryPort;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
+import org.c4marathon.assignment.user.application.port.in.AddUsageUseCase;
+import org.c4marathon.assignment.user.application.port.in.GetUserStorageUseCase;
 import org.c4marathon.assignment.user.domain.entity.User;
+import org.c4marathon.assignment.user.domain.entity.UserStorage;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,6 +21,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static org.c4marathon.assignment.user.domain.entity.UserStorage.isStorageCapacityExceeded;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +39,10 @@ public class CopyFolderService implements CopyFolderUseCase {
     private final FileCommandPort fileCommandPort;
 
     private final UpdateSummaryUseCase updateSummaryUseCase;
+
+    private final GetUserStorageUseCase getUserStorageUseCase;
+
+    private final AddUsageUseCase addUsageUseCase;
 
     /*
     1. 논리적으로 폴더만 먼저 모두 복사한다.
@@ -101,6 +110,13 @@ public class CopyFolderService implements CopyFolderUseCase {
     @Override
     public void copyFolder(User user, Long originFolderId) {
         Folder originFolder = folderSearchService.findById(user, originFolderId);
+
+        // check if storage capacity exceeded
+        UserStorage userStorage = getUserStorageUseCase.getUserStorage(user.getId());
+        if (isStorageCapacityExceeded(userStorage, originFolder.getFolderSize())) {
+            throw new IllegalArgumentException("Storage capacity exceeded");
+        }
+
         String copyString = makeCopyString(user, originFolder.getFolderName(), originFolder.getParentFolder());
         String copyFolderName = originFolder.getFolderName() + copyString;
         String copyPath = originFolder.getPath() + copyString;
@@ -123,6 +139,7 @@ public class CopyFolderService implements CopyFolderUseCase {
         copyActualFolder(originFolder, copyPath);
 
         updateSummaryUseCase.updateSummary(user, copiedFolder.getId(), LocalDateTime.now());
+        addUsageUseCase.AddUsageUseCase(user.getId(), originFolder.getFolderSize());
     }
 
 }

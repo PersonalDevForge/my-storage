@@ -8,7 +8,10 @@ import org.c4marathon.assignment.file.application.port.out.FileQueryPort;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
+import org.c4marathon.assignment.user.application.port.in.AddUsageUseCase;
+import org.c4marathon.assignment.user.application.port.in.GetUserStorageUseCase;
 import org.c4marathon.assignment.user.domain.entity.User;
+import org.c4marathon.assignment.user.domain.entity.UserStorage;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
@@ -16,6 +19,8 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.c4marathon.assignment.user.domain.entity.UserStorage.isStorageCapacityExceeded;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +33,10 @@ public class CopyFileService implements CopyFileUseCase {
     private final FileQueryPort fileQueryPort;
 
     private final UpdateSummaryUseCase updateSummaryUseCase;
+
+    private final GetUserStorageUseCase getUserStorageUseCase;
+
+    private final AddUsageUseCase addUsageUseCase;
 
     private void copyActualFile(File file, String folderPath, String uuidFileName, String type) {
         String newFilePath = folderPath + uuidFileName;
@@ -66,6 +75,12 @@ public class CopyFileService implements CopyFileUseCase {
     public void copyFile(User user, Long originFileId) {
         File originFile = fileSearchService.getFile(user, originFileId);
 
+        // check if storage capacity exceeded
+        UserStorage userStorage = getUserStorageUseCase.getUserStorage(user.getId());
+        if (isStorageCapacityExceeded(userStorage, originFile.getSize())) {
+            throw new IllegalArgumentException("Storage capacity exceeded");
+        }
+
         String type = originFile.getType();
         String uuidFileName = UUID.randomUUID().toString();
         Long size = originFile.getSize();
@@ -78,6 +93,7 @@ public class CopyFileService implements CopyFileUseCase {
         File copiedFile = File.of(user, folder, copyPath, uuidFileName, copyFileName, type, size);
         fileCommandPort.save(copiedFile);
         updateSummaryUseCase.updateSummary(user, folder == null ? null : folder.getId(), LocalDateTime.now());
+        addUsageUseCase.AddUsageUseCase(user.getId(), size);
     }
 
 }
