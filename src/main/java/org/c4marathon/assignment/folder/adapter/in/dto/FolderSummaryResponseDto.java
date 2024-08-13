@@ -31,7 +31,7 @@ public class FolderSummaryResponseDto {
     }
 
     public static FolderSummaryResponseDto of(Long id, Long totalFolders, Long totalFiles, Long totalSize, Long remainingSize, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        return new FolderSummaryResponseDto(id, totalFolders, totalFiles, totalSize, remainingSize, createdAt updatedAt);
+        return new FolderSummaryResponseDto(id, totalFolders, totalFiles, totalSize, remainingSize, createdAt, updatedAt);
     }
 
 }

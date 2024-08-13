@@ -7,6 +7,7 @@ import org.c4marathon.assignment.folder.adapter.in.dto.FolderSummaryResponseDto;
 import org.c4marathon.assignment.folder.application.port.in.GetFolderSummaryUseCase;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.domain.entity.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,8 @@ public class SummaryService implements GetFolderSummaryUseCase {
 
     private final FileSearchService fileSearchService;
 
-    private final Long MAX_USER_FILE_SIZE = 2147483648L;
+    @Value("${max.user.file.size}")
+    private Long MAX_USER_FILE_SIZE;
 
     private FolderSummaryResponseDto getRootFolderSummary(User user) {
         List<Folder> folders = folderSearchService.findAllSubElementsById(user, null);
