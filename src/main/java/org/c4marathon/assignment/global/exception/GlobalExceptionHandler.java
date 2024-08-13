@@ -1,6 +1,7 @@
 package org.c4marathon.assignment.global.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.c4marathon.assignment.global.exception.customs.ExpiredLinkException;
 import org.c4marathon.assignment.global.exception.customs.NotFoundException;
 import org.c4marathon.assignment.global.response.ApiResponse;
 import org.c4marathon.assignment.global.response.enums.ResultCode;
@@ -21,7 +22,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = IllegalArgumentException.class)
     public ResponseEntity<ApiResponse<Void>> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("Entity Illegal Argument Exception Occurred: {}", e.getMessage());
-        return ResponseEntity.status(404).body(ApiResponse.failure(ResultCode.BAD_REQUEST, e.getMessage()));
+        return ResponseEntity.status(400).body(ApiResponse.failure(ResultCode.BAD_REQUEST, e.getMessage()));
+    }
+
+    @ExceptionHandler(value = ExpiredLinkException.class)
+    public ResponseEntity<ApiResponse<Void>> handleExpiredLinkException(ExpiredLinkException e) {
+        log.info("Entity Expired Link Exception Occurred: {}", e.getMessage());
+        return ResponseEntity.status(403).body(ApiResponse.failure(ResultCode.FORBIDDEN, e.getMessage()));
     }
 
 }
