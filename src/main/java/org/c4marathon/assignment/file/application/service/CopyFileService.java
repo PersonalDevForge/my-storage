@@ -6,12 +6,14 @@ import org.c4marathon.assignment.file.application.port.in.CopyFileUseCase;
 import org.c4marathon.assignment.file.application.port.out.FileCommandPort;
 import org.c4marathon.assignment.file.application.port.out.FileQueryPort;
 import org.c4marathon.assignment.file.domain.entity.File;
+import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +26,8 @@ public class CopyFileService implements CopyFileUseCase {
     private final FileCommandPort fileCommandPort;
 
     private final FileQueryPort fileQueryPort;
+
+    private final UpdateSummaryUseCase updateSummaryUseCase;
 
     private void copyActualFile(File file, String folderPath, String uuidFileName, String type) {
         String newFilePath = folderPath + uuidFileName;
@@ -73,6 +77,7 @@ public class CopyFileService implements CopyFileUseCase {
         String copyPath = extractPath(originFile.getPath()) + uuidFileName + "." + type;
         File copiedFile = File.of(user, folder, copyPath, uuidFileName, copyFileName, type, size);
         fileCommandPort.save(copiedFile);
+        updateSummaryUseCase.updateSummary(user, folder == null ? null : folder.getId(), LocalDateTime.now());
     }
 
 }

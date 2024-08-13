@@ -1,10 +1,16 @@
 package org.c4marathon.assignment.folder.adapter.in.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
+@AllArgsConstructor
 public class FolderSummaryResponseDto {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private final Long id;
 
     private final Long totalFolders;
@@ -12,5 +18,18 @@ public class FolderSummaryResponseDto {
     private final Long totalFiles;
 
     private final Long totalSize;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private final Long remainingSize;
+
+    private final LocalDateTime updatedAt;
+
+    public static FolderSummaryResponseDto of(Long id, Long totalFolders, Long totalFiles, Long totalSize, LocalDateTime updatedAt) {
+        return new FolderSummaryResponseDto(id, totalFolders, totalFiles, totalSize, null, updatedAt);
+    }
+
+    public static FolderSummaryResponseDto of(Long id, Long totalFolders, Long totalFiles, Long totalSize, Long remainingSize, LocalDateTime updatedAt) {
+        return new FolderSummaryResponseDto(id, totalFolders, totalFiles, totalSize, remainingSize, updatedAt);
+    }
 
 }

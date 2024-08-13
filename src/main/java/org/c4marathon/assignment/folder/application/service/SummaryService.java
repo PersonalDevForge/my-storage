@@ -9,6 +9,7 @@ import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,11 +20,37 @@ public class SummaryService implements GetFolderSummaryUseCase {
 
     private final FileSearchService fileSearchService;
 
+    private final Long MAX_USER_FILE_SIZE = 2147483648L;
+
+    private FolderSummaryResponseDto getRootFolderSummary(User user) {
+        List<Folder> folders = folderSearchService.findAllSubElementsById(user, null);
+        List<File> files = fileSearchService.getFileListByFolder(user, null);
+
+        LocalDateTime updatedAt = null;
+        Long size = 0L;
+        for (Folder folder : folders) {
+            size += folder.getFolderSize();
+            if (updatedAt == null || folder.getUpdatedAt().isAfter(updatedAt)) {
+                updatedAt = folder.getUpdatedAt();
+            }
+        }
+        for (File file : files) {
+            size += file.getSize();
+            if (updatedAt == null || file.getUpdatedAt().isAfter(updatedAt)) {
+                updatedAt = file.getUpdatedAt();
+            }
+        }
+
+        return FolderSummaryResponseDto.of(null, (long)folders.size(), (long)files.size(), size, MAX_USER_FILE_SIZE - size, updatedAt);
+    }
+
     @Override
     public FolderSummaryResponseDto getFolderSummary(User user, Long folderId) {
+        if (folderId == null) {
+            return getRootFolderSummary(user);
+        }
         Folder folder = folderSearchService.findById(user, folderId);
-        List<File> files = fileSearchService.getFileListByFolder(user, folderId);
-        return null;
+        return FolderSummaryResponseDto.of(folder.getId(), folder.getInnerFolderCount(), folder.getInnerFileCount(), folder.getFolderSize(), folder.getUpdatedAt());
     }
 
 }

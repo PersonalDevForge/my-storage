@@ -6,6 +6,7 @@ import org.c4marathon.assignment.file.application.service.FileSearchService;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.folder.application.port.in.CopyFolderUseCase;
 import org.c4marathon.assignment.folder.application.port.in.MakeFolderUseCase;
+import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
 import org.c4marathon.assignment.folder.application.port.out.FolderQueryPort;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.domain.entity.User;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +32,8 @@ public class CopyFolderService implements CopyFolderUseCase {
     private final MakeFolderUseCase makeFolderUseCase;
 
     private final FileCommandPort fileCommandPort;
+
+    private final UpdateSummaryUseCase updateSummaryUseCase;
 
     /*
     1. 논리적으로 폴더만 먼저 모두 복사한다.
@@ -117,6 +121,8 @@ public class CopyFolderService implements CopyFolderUseCase {
 
         // STEP3 : 실제로 전부 복사한다.
         copyActualFolder(originFolder, copyPath);
+
+        updateSummaryUseCase.updateSummary(user, copiedFolder.getId(), LocalDateTime.now());
     }
 
 }

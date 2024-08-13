@@ -7,6 +7,8 @@ import org.c4marathon.assignment.global.aop.BaseTimeEntity;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDateTime;
+
 
 @Getter
 @Entity
@@ -27,8 +29,7 @@ public class Folder extends BaseTimeEntity {
     @Length(max = 255)
     private String folderName;
 
-    @Column(unique = true)
-    @Length(max = 5000)
+    @Length(max = 3000)
     private String path;
 
     private Long innerFolderCount;
@@ -67,27 +68,28 @@ public class Folder extends BaseTimeEntity {
         this.path = updatePath + "/" + this.folderName;
     }
 
-    public void incrementInnerFolderCount() {
-        this.innerFolderCount++;
+    public void updateInnerFolderCount(Long count) {
+        this.innerFolderCount = count;
     }
 
-    public void decrementInnerFolderCount() {
-        if (this.innerFolderCount == 0) {
-            return;
-        }
-        this.innerFolderCount--;
+    public void updateInnerFileCount(Long count) {
+        this.innerFileCount = count;
     }
 
-    public void incrementInnerFileCount() {
-        this.innerFileCount++;
+    public void updateFolderSize(Long size) {
+        this.folderSize = size;
     }
 
-    public void decrementInnerFileCount() {
-        if (this.innerFileCount == 0) {
-            return;
-        }
-        this.innerFileCount--;
+    public void addFolderSize(Long size) {
+        this.folderSize += size;
     }
 
+    public void initializeFolderSize() {
+        this.folderSize = 0L;
+    }
+
+    public void renewUpdatedAt(LocalDateTime updatedAt) {
+        super.renewUpdatedAt(updatedAt);
+    }
 
 }
