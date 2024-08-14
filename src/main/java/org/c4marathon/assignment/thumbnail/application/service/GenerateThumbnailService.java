@@ -40,6 +40,7 @@ public class GenerateThumbnailService implements GenerateThumbnailUseCase {
 
         Graphics2D graphic = bt_image.createGraphics();
         graphic.drawImage(bo_image, 0, 0,300,500, null);
+        graphic.dispose();
 
         try {
             ImageIO.write(bt_image, extension, thumbnailImage);
@@ -47,7 +48,7 @@ public class GenerateThumbnailService implements GenerateThumbnailUseCase {
             throw new IllegalArgumentException("Failed to generate thumbnail");
         }
 
-        return 0L;
+        return thumbnailImage.length();
     }
 
     @Override
