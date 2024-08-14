@@ -3,6 +3,7 @@ package org.c4marathon.assignment.share.application.service;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.service.FileSearchService;
 import org.c4marathon.assignment.file.domain.entity.File;
+import org.c4marathon.assignment.global.exception.customs.ExpiredLinkException;
 import org.c4marathon.assignment.share.application.port.out.ShareCommandPort;
 import org.c4marathon.assignment.share.domain.entity.Share;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class ShareValidator {
         }
         if (share.isExpired()) {
             shareCommandPort.delete(share);
-            throw new IllegalArgumentException("폴더 공유가 만료되었습니다.");
+            throw new ExpiredLinkException("폴더 공유가 만료되었습니다.");
         }
     }
 
