@@ -11,7 +11,7 @@ import org.c4marathon.assignment.global.aop.BaseTimeEntity;
 
 @Getter
 @Entity
-@Table(name = "MS-THUMBNAILS")
+@Table(name = "MS_THUMBNAILS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Thumbnail extends BaseTimeEntity {
@@ -20,12 +20,12 @@ public class Thumbnail extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "file_id", nullable = true)
     private File file;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "folder_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "folder_id", nullable = true)
     private Folder folder;
 
     private String uuid;
