@@ -25,6 +25,10 @@ public class GenerateThumbnailService implements GenerateThumbnailUseCase {
 
     private final String THUMBNAIL_EXTENSION = "jpg";
 
+    private final int THUMBNAIL_WIDTH = 100;
+
+    private final int THUMBNAIL_HEIGHT = 100;
+
     private Long generateThumbnailFromImage(String originImagePath, String uuid, int width, int height, String extension) {
         java.io.File originImage = new java.io.File(originImagePath);
         String path = basePath + "/" + uuid + "." + THUMBNAIL_EXTENSION;
@@ -56,7 +60,7 @@ public class GenerateThumbnailService implements GenerateThumbnailUseCase {
     public String GenerateThumbnail(File file) {
         String uuid = UUID.randomUUID().toString();
         String path = basePath + "/" + uuid + "." + THUMBNAIL_EXTENSION;
-        Long size = generateThumbnailFromImage(file.getPath(), uuid, 100, 100, THUMBNAIL_EXTENSION);
+        Long size = generateThumbnailFromImage(file.getPath(), uuid, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, THUMBNAIL_EXTENSION);
         Thumbnail generatedThumbnail = Thumbnail.of(null, file, file.getFolder(), uuid, THUMBNAIL_EXTENSION, path, size);
         thumbnailCommandPort.save(generatedThumbnail);
         return path;
