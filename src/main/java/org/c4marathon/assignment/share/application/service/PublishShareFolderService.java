@@ -1,8 +1,6 @@
 package org.c4marathon.assignment.share.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.c4marathon.assignment.file.application.service.FileSearchService;
-import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.folder.application.service.FolderSearchService;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.share.application.port.in.PublishShareFolderUseCase;

@@ -2,7 +2,6 @@ package org.c4marathon.assignment.share.adapter.in;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.global.response.ApiResponse;
 import org.c4marathon.assignment.share.application.port.in.DownloadSharedFileUseCase;
