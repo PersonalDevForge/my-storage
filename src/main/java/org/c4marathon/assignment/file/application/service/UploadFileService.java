@@ -37,7 +37,11 @@ public class UploadFileService implements UploadFileUseCase {
     private final GenerateThumbnailUseCase generateThumbnailUseCase;
 
     private String extractExtension(String fileName) {
-        return fileName.substring(fileName.indexOf('.') + 1);
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex == -1 || lastDotIndex == fileName.length() - 1) {
+            throw new IllegalArgumentException("Invalid file name: no extension found");
+        }
+        return fileName.substring(lastDotIndex + 1).toLowerCase();
     }
 
     private String makeDefaultFilePath(String email) {
