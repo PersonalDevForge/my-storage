@@ -25,8 +25,6 @@ public class GenerateThumbnailService implements GenerateThumbnailUseCase {
     @Value("${thumbnail.base-path}")
     private String basePath;
 
-    private final String THUMBNAIL_EXTENSION = "jpg";
-
     private final int THUMBNAIL_WIDTH = 300;
 
     private final int THUMBNAIL_HEIGHT = 300;
@@ -74,7 +72,7 @@ public class GenerateThumbnailService implements GenerateThumbnailUseCase {
 
     @Override
     @Transactional
-    public String GenerateThumbnail(File file) {
+    public String generateThumbnail(File file) {
         String uuid = UUID.randomUUID().toString();
         String path = basePath + "/" + uuid + "." + file.getType();
         Long size = generateThumbnailFromImage(file.getPath(), uuid, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, file.getType());

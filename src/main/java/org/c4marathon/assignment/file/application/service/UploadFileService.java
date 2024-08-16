@@ -8,7 +8,6 @@ import org.c4marathon.assignment.file.application.port.out.FileQueryPort;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
 import org.c4marathon.assignment.folder.application.service.FolderSearchService;
-import org.c4marathon.assignment.folder.application.service.UpdateSummaryService;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.thumbnail.application.port.in.GenerateThumbnailUseCase;
 import org.c4marathon.assignment.user.application.port.in.AddUsageUseCase;
@@ -48,6 +47,10 @@ public class UploadFileService implements UploadFileUseCase {
         return "src/main/resources/upload/" + email;
     }
 
+    private Boolean isImage(String type) {
+        return type.equals("jpg") || type.equals("png") || type.equals("jpeg") || type.equals("gif") || type.equals("bmp") || type.equals("webp") || type.equals("ico");
+    }
+
     @Override
     @Transactional
     public void uploadFile(User user, String fileName, Long folderId, byte[] file) {
@@ -75,8 +78,8 @@ public class UploadFileService implements UploadFileUseCase {
         addUsageUseCase.AddUsageUseCase(user.getId(), size);
 
         // 이미지라면 썸네일을 생성한다.
-        if (type.equals("jpg") || type.equals("png") || type.equals("jpeg")) {
-            generateThumbnailUseCase.GenerateThumbnail(metaData);
+        if (isImage(type)) {
+            generateThumbnailUseCase.generateThumbnail(metaData);
         }
     }
 

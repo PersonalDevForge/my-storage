@@ -4,6 +4,6 @@ import org.c4marathon.assignment.file.domain.entity.File;
 
 public interface GenerateThumbnailUseCase {
 
-    String GenerateThumbnail(File file);
+    String generateThumbnail(File file);
 
 }

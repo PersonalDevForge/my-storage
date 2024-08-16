@@ -73,6 +73,10 @@ public class CopyFileService implements CopyFileUseCase {
         return copy;
     }
 
+    private Boolean isImage(String type) {
+        return type.equals("jpg") || type.equals("png") || type.equals("jpeg") || type.equals("gif") || type.equals("bmp") || type.equals("webp") || type.equals("ico");
+    }
+
     @Override
     @Transactional
     public void copyFile(User user, Long originFileId) {
@@ -98,8 +102,8 @@ public class CopyFileService implements CopyFileUseCase {
         updateSummaryUseCase.updateSummary(user, folder == null ? null : folder.getId(), LocalDateTime.now());
         addUsageUseCase.AddUsageUseCase(user.getId(), size);
         // 이미지라면 썸네일을 생성한다.
-        if (type.equals("jpg") || type.equals("png") || type.equals("jpeg")) {
-            generateThumbnailUseCase.GenerateThumbnail(copiedFile);
+        if (isImage(type)) {
+            generateThumbnailUseCase.generateThumbnail(copiedFile);
         }
     }
 
