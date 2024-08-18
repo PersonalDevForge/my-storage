@@ -40,4 +40,11 @@ public class Thumbnail extends BaseTimeEntity {
         return new Thumbnail(id, file, folder, uuid, extension, path, size);
     }
 
+    public String getThumbnailUrl() {
+        if (this.extension == null || this.extension.isEmpty()) {
+            return "/thumbnails/" + this.uuid;
+        }
+        return "/thumbnails/" + this.uuid + "." + this.extension;
+    }
+
 }
