@@ -139,7 +139,7 @@ public class CopyFolderService implements CopyFolderUseCase {
         copyActualFolder(originFolder, copyPath);
 
         updateSummaryUseCase.updateSummary(user, copiedFolder.getId(), LocalDateTime.now());
-        addUsageUseCase.AddUsageUseCase(user.getId(), originFolder.getFolderSize());
+        addUsageUseCase.addUsageUseCase(user.getId(), originFolder.getFolderSize());
     }
 
 }

@@ -100,7 +100,7 @@ public class CopyFileService implements CopyFileUseCase {
         File copiedFile = File.of(user, folder, copyPath, uuidFileName, copyFileName, type, size);
         fileCommandPort.save(copiedFile);
         updateSummaryUseCase.updateSummary(user, folder == null ? null : folder.getId(), LocalDateTime.now());
-        addUsageUseCase.AddUsageUseCase(user.getId(), size);
+        addUsageUseCase.addUsageUseCase(user.getId(), size);
         // 이미지라면 썸네일을 생성한다.
         if (isImage(type)) {
             generateThumbnailUseCase.generateThumbnail(copiedFile);
