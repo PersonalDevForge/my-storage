@@ -8,6 +8,7 @@ import org.c4marathon.assignment.file.application.port.out.FileQueryPort;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
+import org.c4marathon.assignment.thumbnail.application.port.in.GenerateThumbnailUseCase;
 import org.c4marathon.assignment.user.application.port.in.AddUsageUseCase;
 import org.c4marathon.assignment.user.application.port.in.GetUserStorageUseCase;
 import org.c4marathon.assignment.user.domain.entity.User;
@@ -37,6 +38,8 @@ public class CopyFileService implements CopyFileUseCase {
     private final GetUserStorageUseCase getUserStorageUseCase;
 
     private final AddUsageUseCase addUsageUseCase;
+
+    private final GenerateThumbnailUseCase generateThumbnailUseCase;
 
     private void copyActualFile(File file, String folderPath, String uuidFileName, String type) {
         String newFilePath = folderPath + uuidFileName;
@@ -70,6 +73,10 @@ public class CopyFileService implements CopyFileUseCase {
         return copy;
     }
 
+    private Boolean isImage(String type) {
+        return type.equals("jpg") || type.equals("png") || type.equals("jpeg") || type.equals("gif") || type.equals("bmp") || type.equals("webp") || type.equals("ico");
+    }
+
     @Override
     @Transactional
     public void copyFile(User user, Long originFileId) {
@@ -94,6 +101,10 @@ public class CopyFileService implements CopyFileUseCase {
         fileCommandPort.save(copiedFile);
         updateSummaryUseCase.updateSummary(user, folder == null ? null : folder.getId(), LocalDateTime.now());
         addUsageUseCase.AddUsageUseCase(user.getId(), size);
+        // 이미지라면 썸네일을 생성한다.
+        if (isImage(type)) {
+            generateThumbnailUseCase.generateThumbnail(copiedFile);
+        }
     }
 
 }

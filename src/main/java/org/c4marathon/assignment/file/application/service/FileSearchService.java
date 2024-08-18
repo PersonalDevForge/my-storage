@@ -8,6 +8,8 @@ import org.c4marathon.assignment.folder.application.port.out.FolderQueryPort;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.global.exception.customs.NotFoundException;
 import org.c4marathon.assignment.user.domain.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +37,11 @@ public class FileSearchService implements GetFileListUseCase {
     public List<File> getFileListByFolder(User user, Long folderId) {
         Folder folder = folderQueryPort.findByUserAndId(user, folderId).orElse(null);
         return fileQueryPort.findAllByUserAndFolder(user, folder);
+    }
+
+    @Override
+    public List<File> getFileListByFolderPageable(User user, Long folderId, int offset, int limit) {
+        return fileQueryPort.findFilesWithOffset(user, folderId, offset, limit);
     }
 
 }

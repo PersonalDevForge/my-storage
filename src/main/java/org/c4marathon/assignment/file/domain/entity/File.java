@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.global.aop.BaseTimeEntity;
+import org.c4marathon.assignment.thumbnail.domain.entity.Thumbnail;
 import org.c4marathon.assignment.user.domain.entity.User;
 
 @Getter
@@ -25,6 +26,9 @@ public class File extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "folder_id")
     private Folder folder;
+
+    @OneToOne(mappedBy = "file", fetch = FetchType.EAGER)
+    private Thumbnail thumbnail;
 
     @Column(unique = true)
     private String path;

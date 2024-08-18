@@ -13,4 +13,6 @@ public interface GetFileListUseCase {
 
     List<File> getFileListByFolder(User user, Long folderId);
 
+    List<File> getFileListByFolderPageable(User user, Long folderId, int offset, int limit);
+
 }

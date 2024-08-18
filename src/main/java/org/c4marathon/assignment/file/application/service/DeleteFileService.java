@@ -5,6 +5,7 @@ import org.c4marathon.assignment.file.application.port.in.DeleteFileUseCase;
 import org.c4marathon.assignment.file.application.port.out.FileCommandPort;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
+import org.c4marathon.assignment.thumbnail.application.port.in.DeleteThumbnailUseCase;
 import org.c4marathon.assignment.user.application.port.in.AddUsageUseCase;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class DeleteFileService implements DeleteFileUseCase {
 
     private final AddUsageUseCase addUsageUseCase;
 
+    private final DeleteThumbnailUseCase deleteThumbnailUseCase;
+
     private void removeFromDisk(File file) {
         java.io.File diskFile = new java.io.File(file.getPath());
 
@@ -38,6 +41,7 @@ public class DeleteFileService implements DeleteFileUseCase {
         Long fileSize = file.getSize();
         removeFromDisk(file);
         Long folderId = file.getFolder() == null ? null : file.getFolder().getId();
+        deleteThumbnailUseCase.deleteThumbnail(fileId);
         fileCommandPort.delete(file);
         updateSummaryUseCase.updateSummary(user, folderId, LocalDateTime.now());
         addUsageUseCase.AddUsageUseCase(user.getId(), -fileSize);
