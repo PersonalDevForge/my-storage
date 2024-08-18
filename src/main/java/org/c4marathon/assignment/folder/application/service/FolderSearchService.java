@@ -6,6 +6,8 @@ import org.c4marathon.assignment.folder.application.port.out.FolderQueryPort;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.global.exception.customs.NotFoundException;
 import org.c4marathon.assignment.user.domain.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,11 @@ public class FolderSearchService implements SearchFolderUseCase {
     @Override
     public Folder findById(User user, Long folderId) {
         return folderQueryPort.findByUserAndId(user, folderId).orElseThrow(() -> new NotFoundException("Folder not found"));
+    }
+
+    @Override
+    public Page<Folder> findAllSubElementsByIdPageable(User user, Long folderId, int page, int size) {
+        return folderQueryPort.findByUserAndParentFolderIdPageable(user, folderId, Pageable.ofSize(size).withPage(page));
     }
 
     @Override

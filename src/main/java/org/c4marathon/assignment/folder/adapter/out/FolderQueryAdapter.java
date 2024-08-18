@@ -5,6 +5,8 @@ import org.c4marathon.assignment.folder.application.port.out.FolderQueryPort;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.folder.infrastructure.repository.FolderRepository;
 import org.c4marathon.assignment.user.domain.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,6 +36,11 @@ public class FolderQueryAdapter implements FolderQueryPort {
         } else {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Page<Folder> findByUserAndParentFolderIdPageable(User user, Long parentFolderId, Pageable pageable) {
+        return folderRepository.findByUserAndParentFolderIdPageable(user, parentFolderId, pageable);
     }
 
     @Override

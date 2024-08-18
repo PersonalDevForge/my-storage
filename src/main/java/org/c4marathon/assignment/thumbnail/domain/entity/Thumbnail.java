@@ -24,7 +24,7 @@ public class Thumbnail extends BaseTimeEntity {
     @JoinColumn(name = "file_id", nullable = true)
     private File file;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "folder_id", nullable = true)
     private Folder folder;
 
