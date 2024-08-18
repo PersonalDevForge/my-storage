@@ -21,6 +21,13 @@ public class User {
 
     private String password;
 
+    private User(Long id, String email, String nickname, String password) {
+        this.id = id;
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+    }
+
     private User(String email, String nickname, String password) {
         this.id = null;
         this.email = email;
@@ -30,6 +37,10 @@ public class User {
 
     public static User of(String email, String nickname, String password) {
         return new User(email, nickname, password);
+    }
+
+    public static User of(Long id, String email, String nickname, String password) {
+        return new User(id, email, nickname, password);
     }
 
 }

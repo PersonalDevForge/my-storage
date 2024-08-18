@@ -15,7 +15,7 @@ public class AddUsageService implements AddUsageUseCase {
 
     @Override
     @Transactional
-    public void AddUsageUseCase(Long userId, Long amount) {
+    public void addUsageUseCase(Long userId, Long amount) {
         UserStorage userStorage = getUserStorageUseCase.getUserStorage(userId);
         userStorage.addUsage(amount);
     }

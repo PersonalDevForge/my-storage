@@ -75,7 +75,7 @@ public class UploadFileService implements UploadFileUseCase {
         updateSummaryUseCase.updateSummary(user, folderId, LocalDateTime.now());
 
         // 사용량을 업데이트한다.
-        addUsageUseCase.AddUsageUseCase(user.getId(), size);
+        addUsageUseCase.addUsageUseCase(user.getId(), size);
 
         // 이미지라면 썸네일을 생성한다.
         if (isImage(type)) {

@@ -44,7 +44,7 @@ public class DeleteFileService implements DeleteFileUseCase {
         deleteThumbnailUseCase.deleteThumbnail(fileId);
         fileCommandPort.delete(file);
         updateSummaryUseCase.updateSummary(user, folderId, LocalDateTime.now());
-        addUsageUseCase.AddUsageUseCase(user.getId(), -fileSize);
+        addUsageUseCase.addUsageUseCase(user.getId(), -fileSize);
     }
 
 }
