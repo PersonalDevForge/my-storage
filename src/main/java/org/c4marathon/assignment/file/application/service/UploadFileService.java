@@ -41,7 +41,7 @@ public class UploadFileService implements UploadFileUseCase {
     private String extractExtension(String fileName) {
         int lastDotIndex = fileName.lastIndexOf('.');
         if (lastDotIndex == -1 || lastDotIndex == fileName.length() - 1) {
-            throw new IllegalArgumentException("Invalid file name: no extension found");
+            return "";
         }
         return fileName.substring(lastDotIndex + 1).toLowerCase();
     }
