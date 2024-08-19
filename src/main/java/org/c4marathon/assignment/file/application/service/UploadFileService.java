@@ -3,6 +3,7 @@ package org.c4marathon.assignment.file.application.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.UploadFileUseCase;
+import org.c4marathon.assignment.file.application.port.in.WriteToFileSystemUseCase;
 import org.c4marathon.assignment.file.application.port.out.FileCommandPort;
 import org.c4marathon.assignment.file.application.port.out.FileQueryPort;
 import org.c4marathon.assignment.file.domain.entity.File;
@@ -14,6 +15,8 @@ import org.c4marathon.assignment.user.application.port.in.AddUsageUseCase;
 import org.c4marathon.assignment.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -25,7 +28,7 @@ public class UploadFileService implements UploadFileUseCase {
 
     private final FileCommandPort fileCommandPort;
 
-    private final WriteFileService writeFileService;
+    private final WriteToFileSystemUseCase writeToFileSystemUseCase;
 
     private final FolderSearchService folderSearchService;
 
@@ -65,7 +68,11 @@ public class UploadFileService implements UploadFileUseCase {
         }
 
         // 파일을 저장하고 저장된 파일의 경로를 반환한다.
-        String uploadPath = writeFileService.writeFile(folder != null ? folder.getPath() : makeDefaultFilePath(user.getEmail()), uuidFileName, type, file);
+        String fileSystemDirPath = folder != null ? folder.getPath() : makeDefaultFilePath(user.getEmail());
+        String fileSystemFilePath = writeToFileSystemUseCase.makeDestinationPath(fileSystemDirPath, uuidFileName, type);
+        java.io.File uploadServerDir = writeToFileSystemUseCase.pathToFile(fileSystemDirPath);
+        java.io.File uploadServerFile = writeToFileSystemUseCase.pathToFile(fileSystemFilePath);
+        String uploadPath = writeToFileSystemUseCase.writeFile(uploadServerDir, uploadServerFile, file);
 
         // 메타 정보를 저장한다.
         File metaData = File.of(user, folder, uploadPath, uuidFileName, fileName, type, size);
