@@ -75,7 +75,7 @@ public class UploadFileService implements UploadFileUseCase {
         String uploadPath = writeToFileSystemUseCase.writeFile(uploadServerDir, uploadServerFile, file);
 
         // 메타 정보를 저장한다.
-        File metaData = File.of(user, folder, uploadPath, uuidFileName, fileName, type, size);
+        File metaData = File.of(null, user, folder, uploadPath, uuidFileName, fileName, type, size);
         metaData = fileCommandPort.save(metaData);
 
         // 폴더의 요약 정보를 업데이트한다.

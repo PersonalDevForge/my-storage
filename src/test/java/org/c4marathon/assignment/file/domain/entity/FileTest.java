@@ -18,7 +18,7 @@ class FileTest {
         Folder originFolder = Folder.of(user, null, "originFolderNmae", originFolderPath, 0L, 0L, 0L);
         String destFolderPath = "src/main/resources/upload/test@example.com/destFolderName";
         Folder destFolder = Folder.of(user, null, "destFolderName", destFolderPath, 0L, 0L, 0L);
-        File file = File.of(user, originFolder, originFolderPath, "uuid", "fileName", "type", 1L);
+        File file = File.of(1L, user, originFolder, originFolderPath, "uuid", "fileName", "type", 1L);
 
         // when
         file.move(destFolder);
@@ -34,7 +34,7 @@ class FileTest {
         User user = User.of(1L, "test@example.com", "username", "password");
         String originFolderPath = "src/main/resources/upload/test@example.com/originFolderName";
         Folder originFolder = Folder.of(user, null, "originFolderNmae", originFolderPath, 0L, 0L, 0L);
-        File file = File.of(user, originFolder, originFolderPath, "uuid", "fileName", "type", 1L);
+        File file = File.of(1L, user, originFolder, originFolderPath, "uuid", "fileName", "type", 1L);
         String rootFolderPath = "src/main/resources/upload";
 
         // when
@@ -49,7 +49,7 @@ class FileTest {
     void updatePathWithNull() {
         // given
         User user = User.of(1L, "test@example.com", "username", "password");
-        File file = File.of(user, null, null, "uuid", "fileName", "type", 1L);
+        File file = File.of(1L, user, null, null, "uuid", "fileName", "type", 1L);
         String expectedPath = "src/main/resources/upload/" + user.getEmail() + "/" + file.getUuid() + "." + file.getType();
 
         // when
@@ -66,7 +66,7 @@ class FileTest {
         User user = User.of(1L, "test@example.com", "username", "password");
         String folderPath = "src/main/resources/upload/test@example.com/originFolderName";
         Folder folder = Folder.of(user, null, "originFolderNmae", folderPath, 0L, 0L, 0L);
-        File file = File.of(user, folder, null, "uuid", "fileName", "type", 1L);
+        File file = File.of(1L, user, folder, null, "uuid", "fileName", "type", 1L);
         String expectedPath = folderPath + "/" + file.getUuid() + "." + file.getType();
 
         // when

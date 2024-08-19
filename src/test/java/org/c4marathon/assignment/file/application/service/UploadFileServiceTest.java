@@ -58,7 +58,7 @@ class UploadFileServiceTest {
         Long folderId = 1L;
         byte[] file = new byte[0];
         Folder folder = Folder.of(user, null, "folderName", "path", 0L, 0L, 0L);
-        File metaData = File.of(user, folder, "path", "uuid", fileName, "jpg", 10L);
+        File metaData = File.of(1L, user, folder, "path", "uuid", fileName, "jpg", 10L);
 
         when(folderSearchService.findById(user, folderId)).thenReturn(folder);
         when(fileQueryPort.findByUserAndFileNameAndFolder(user, fileName, folder)).thenReturn(Optional.empty());
@@ -80,7 +80,7 @@ class UploadFileServiceTest {
         Long folderId = 1L;
         byte[] file = new byte[0];
         Folder folder = Folder.of(user, null, "folderName", "path", 0L, 0L, 0L);
-        File metaData = File.of(user, folder, "path", "uuid", fileName, "notImage", 10L);
+        File metaData = File.of(1L, user, folder, "path", "uuid", fileName, "notImage", 10L);
 
         when(folderSearchService.findById(user, folderId)).thenReturn(folder);
         when(fileQueryPort.findByUserAndFileNameAndFolder(user, fileName, folder)).thenReturn(Optional.empty());
@@ -102,7 +102,7 @@ class UploadFileServiceTest {
         Long folderId = 1L;
         byte[] file = new byte[0];
         Folder folder = Folder.of(user, null, "folderName", "path", 0L, 0L, 0L);
-        File metaData = File.of(user, folder, "path", "uuid", fileName, "notImage", 10L);
+        File metaData = File.of(1L, user, folder, "path", "uuid", fileName, "notImage", 10L);
 
         when(folderSearchService.findById(user, folderId)).thenReturn(folder);
         when(fileQueryPort.findByUserAndFileNameAndFolder(user, fileName, folder)).thenReturn(Optional.empty());
@@ -124,7 +124,7 @@ class UploadFileServiceTest {
         Long folderId = 1L;
         byte[] file = new byte[0];
         Folder folder = null;
-        File metaData = File.of(user, null, "path", "uuid", fileName, "notImage", 10L);
+        File metaData = File.of(1L, user, null, "path", "uuid", fileName, "notImage", 10L);
 
         when(folderSearchService.findById(user, folderId)).thenReturn(folder);
         when(fileQueryPort.findByUserAndFileNameAndFolder(user, fileName, folder)).thenReturn(Optional.empty());
@@ -146,7 +146,7 @@ class UploadFileServiceTest {
         Long folderId = 1L;
         byte[] file = new byte[0];
         Folder folder = Folder.of(user, null, "folderName", "path", 0L, 0L, 0L);
-        File alreadyExistFile = File.of(user, folder, "path", "uuid", "test.jpg", "jpg", 10L);
+        File alreadyExistFile = File.of(1L, user, folder, "path", "uuid", "test.jpg", "jpg", 10L);
         when(folderSearchService.findById(user, folderId)).thenReturn(folder);
         when(fileQueryPort.findByUserAndFileNameAndFolder(user, fileName, folder)).thenReturn(Optional.of(alreadyExistFile));
 

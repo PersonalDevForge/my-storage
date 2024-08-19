@@ -97,7 +97,7 @@ public class CopyFileService implements CopyFileUseCase {
         copyActualFile(originFile, extractPath(originFile.getPath()), uuidFileName, type);
         String copyFileName = extractFileName(originFile.getFileName(), type) + copyString + "." + type;
         String copyPath = extractPath(originFile.getPath()) + uuidFileName + "." + type;
-        File copiedFile = File.of(user, folder, copyPath, uuidFileName, copyFileName, type, size);
+        File copiedFile = File.of(null, user, folder, copyPath, uuidFileName, copyFileName, type, size);
         fileCommandPort.save(copiedFile);
         updateSummaryUseCase.updateSummary(user, folder == null ? null : folder.getId(), LocalDateTime.now());
         addUsageUseCase.addUsageUseCase(user.getId(), size);
