@@ -4,9 +4,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
 
 class FileFactoryTest {
 
@@ -37,5 +41,24 @@ class FileFactoryTest {
         // then
         assertEquals(result.toString(), path);
     }
+
+    @Test
+    @DisplayName("copyFile() 메서드는 파일을 복사한다.")
+    void copyFile() throws IOException {
+        // given
+        Path origin = Path.of("src/test/resources/test.txt");
+        Path target = Path.of("src/test/resources/test - Copy.txt");
+
+        // mock
+        mockStatic(Files.class);
+        when(Files.copy(origin, target)).thenReturn(target);
+
+        // when
+        Path result = fileFactory.copyFile(origin, target);
+
+        // then
+        assertEquals(result.toString(), target.toString());
+    }
+
 
 }
