@@ -3,6 +3,7 @@ package org.c4marathon.assignment.file.application.service;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.DeleteFileUseCase;
 import org.c4marathon.assignment.file.application.port.out.FileCommandPort;
+import org.c4marathon.assignment.file.application.service.component.FileFactory;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
 import org.c4marathon.assignment.thumbnail.application.port.in.DeleteThumbnailUseCase;
@@ -26,8 +27,10 @@ public class DeleteFileService implements DeleteFileUseCase {
 
     private final DeleteThumbnailUseCase deleteThumbnailUseCase;
 
+    private final FileFactory fileFactory;
+
     private void removeFromDisk(File file) {
-        java.io.File diskFile = new java.io.File(file.getPath());
+        java.io.File diskFile = fileFactory.createFile(file.getPath());
 
         if (!diskFile.delete()) {
             throw new RuntimeException("Failed to delete file from disk");
