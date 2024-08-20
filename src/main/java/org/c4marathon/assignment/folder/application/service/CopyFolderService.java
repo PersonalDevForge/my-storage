@@ -88,7 +88,7 @@ public class CopyFolderService implements CopyFolderUseCase {
     }
 
     private void copyLogicalFiles(User user, File source, Folder targetFolder) {
-        File childFile = File.of(user, targetFolder, targetFolder.getPath() + "/" + source.getUuid() + "." + source.getType(), source.getUuid(), source.getFileName(), source.getType(), source.getSize());
+        File childFile = File.of(null, user, targetFolder, targetFolder.getPath() + "/" + source.getUuid() + "." + source.getType(), source.getUuid(), source.getFileName(), source.getType(), source.getSize());
         fileCommandPort.save(childFile);
     }
 

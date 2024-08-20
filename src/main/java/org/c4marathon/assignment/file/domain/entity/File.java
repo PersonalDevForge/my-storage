@@ -41,8 +41,8 @@ public class File extends BaseTimeEntity {
 
     private Long size;
 
-    private File(User user, Folder folder, String path, String uuid, String fileName, String type, Long size) {
-        this.id = null;
+    private File(Long id, User user, Folder folder, String path, String uuid, String fileName, String type, Long size) {
+        this.id = id;
         this.user = user;
         this.folder = folder;
         this.path = path;
@@ -52,12 +52,12 @@ public class File extends BaseTimeEntity {
         this.size = size;
     }
 
-    public static File of(User user, Folder folder, String path, String uuid, String fileName, String type, Long size) {
-        return new File(user, folder, path, uuid, fileName, type, size);
+    public static File of(Long id, User user, Folder folder, String path, String uuid, String fileName, String type, Long size) {
+        return new File(id, user, folder, path, uuid, fileName, type, size);
     }
 
     public static File from(File file) {
-        return new File(file.getUser(), file.getFolder(), file.getPath(), file.getUuid(), file.getFileName(), file.getType(), file.getSize());
+        return new File(file.getId(), file.getUser(), file.getFolder(), file.getPath(), file.getUuid(), file.getFileName(), file.getType(), file.getSize());
     }
 
     public void move(Folder folder) {

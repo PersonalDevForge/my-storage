@@ -40,8 +40,8 @@ public class Folder extends BaseTimeEntity {
 
     private Long folderSize;
 
-    private Folder(User user, Folder parentFolder, String folderName, String path, Long innerFolderCount, Long innerFileCount, Long folderSize) {
-        this.id = null;
+    private Folder(Long id, User user, Folder parentFolder, String folderName, String path, Long innerFolderCount, Long innerFileCount, Long folderSize) {
+        this.id = id;
         this.user = user;
         this.parentFolder = parentFolder;
         this.folderName = folderName;
@@ -52,7 +52,11 @@ public class Folder extends BaseTimeEntity {
     }
 
     public static Folder of(User user, Folder parentFolder, String folderName, String path, Long innerFolderCount, Long innerFileCount, Long folderSize) {
-        return new Folder(user, parentFolder, folderName, path, innerFolderCount, innerFileCount, folderSize);
+        return new Folder(null, user, parentFolder, folderName, path, innerFolderCount, innerFileCount, folderSize);
+    }
+
+    public static Folder of(Long id, User user, Folder parentFolder, String folderName, String path, Long innerFolderCount, Long innerFileCount, Long folderSize) {
+        return new Folder(id, user, parentFolder, folderName, path, innerFolderCount, innerFileCount, folderSize);
     }
 
     public void rename(String newFolderName, String newPath) {

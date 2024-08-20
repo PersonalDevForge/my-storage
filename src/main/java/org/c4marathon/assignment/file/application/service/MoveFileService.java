@@ -3,6 +3,7 @@ package org.c4marathon.assignment.file.application.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.file.application.port.in.MoveFileUseCase;
+import org.c4marathon.assignment.file.application.service.component.FileFactory;
 import org.c4marathon.assignment.file.domain.entity.File;
 import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
 import org.c4marathon.assignment.folder.application.service.FolderSearchService;
@@ -22,9 +23,11 @@ public class MoveFileService implements MoveFileUseCase {
 
     private final UpdateSummaryUseCase updateSummaryUseCase;
 
+    private final FileFactory fileFactory;
+
     private void applyActualMove(String originPath, File file) {
-        java.io.File originFile = new java.io.File(originPath);
-        java.io.File destFile = new java.io.File(file.getPath());
+        java.io.File originFile = fileFactory.createFile(originPath);
+        java.io.File destFile = fileFactory.createFile(file.getPath());
         if (destFile.exists()) {
             throw new IllegalArgumentException("File already exists");
         } else if (!originFile.exists()) {
