@@ -43,7 +43,7 @@ public class SummaryService implements GetFolderSummaryUseCase {
             }
         }
 
-        return FolderSummaryResponseDto.of(null, (long)folders.size(), (long)files.size(), size, MAX_USER_FILE_SIZE - size, null, updatedAt);
+        return FolderSummaryResponseDto.of(null, (long)folders.size(), (long)files.size(), size, MAX_USER_FILE_SIZE != null ? MAX_USER_FILE_SIZE - size : null, null, updatedAt);
     }
 
     @Override
