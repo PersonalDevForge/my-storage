@@ -68,7 +68,7 @@ class GenerateThumbnailServiceTest {
     }
 
     @Test
-    @DisplayName("이미지를 여는 것에 실패해서 썸네일 생성에 실패했다면 빈 문자열을 반환한다.")
+    @DisplayName("이미지를 여는 것에 실패해서 예외를 던지고, 썸네일 생성에 실패했다면 빈 문자열을 반환한다.")
     void returnEmptyPathStringWhenFailToOpenImageCauseThrowIOException() throws IOException {
         // given
         User user = User.of(1L, "test@example.com", "nickname", "password");
@@ -98,7 +98,7 @@ class GenerateThumbnailServiceTest {
     }
 
     @Test
-    @DisplayName("이미지를 여는 것에 실패해서 썸네일 생성에 실패했다면 빈 문자열을 반환한다.")
+    @DisplayName("이미지를 여는 것에 실패해서 null을 리턴하고, 썸네일 생성에 실패했다면 빈 문자열을 반환한다.")
     void returnEmptyPathStringWhenFailToOpenImageCauseReturnNull() throws IOException {
         // given
         User user = User.of(1L, "test@example.com", "nickname", "password");

@@ -2,6 +2,7 @@ package org.c4marathon.assignment.thumbnail.application.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.c4marathon.assignment.file.application.service.component.FileFactory;
 import org.c4marathon.assignment.thumbnail.application.port.in.DeleteThumbnailUseCase;
 import org.c4marathon.assignment.thumbnail.application.port.out.ThumbnailCommandPort;
 import org.c4marathon.assignment.thumbnail.application.port.out.ThumbnailQueryPort;
@@ -23,9 +24,12 @@ public class DeleteThumbnailService implements DeleteThumbnailUseCase {
 
     private final ThumbnailCommandPort thumbnailCommandPort;
 
+    private final FileFactory fileFactory;
+
     private void deleteActualImage(Thumbnail thumbnail) {
         try {
-            Files.delete(Path.of(thumbnail.getPath()));
+            Path deleteFilePath = fileFactory.createPath(thumbnail.getPath());
+            fileFactory.deleteFile(deleteFilePath);
         } catch (IOException e) {
             throw new IllegalArgumentException("Failed to delete thumbnail");
         }
