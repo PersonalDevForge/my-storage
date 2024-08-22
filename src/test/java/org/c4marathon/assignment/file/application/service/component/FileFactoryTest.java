@@ -1,7 +1,7 @@
 package org.c4marathon.assignment.file.application.service.component;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.mockito.MockedStatic;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,12 +9,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class FileFactoryTest {
 
     private final FileFactory fileFactory = new FileFactory();
+
+    private static MockedStatic<Files> files;
+
+    @BeforeAll
+    public static void beforeAll() {
+        files = mockStatic(Files.class);
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        files.close();
+    }
 
     @Test
     @DisplayName("createPath() 메서드는 주어진 경로를 Path 객체로 변환한다.")
@@ -50,7 +61,6 @@ class FileFactoryTest {
         Path target = Path.of("src/test/resources/test - Copy.txt");
 
         // mock
-        mockStatic(Files.class);
         when(Files.copy(origin, target)).thenReturn(target);
 
         // when
@@ -65,9 +75,6 @@ class FileFactoryTest {
     void deleteFile() throws IOException {
         // given
         Path path = Path.of("src/test/resources/test.txt");
-
-        // mock
-        mockStatic(Files.class);
 
         // when & then
         assertDoesNotThrow(() -> fileFactory.deleteFile(path));
