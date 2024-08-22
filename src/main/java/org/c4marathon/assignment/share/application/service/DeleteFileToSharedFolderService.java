@@ -27,5 +27,4 @@ public class DeleteFileToSharedFolderService implements DeleteFileToSharedFolder
         deleteFileUseCase.deleteFile(share.getUser(), fileId);
     }
 
-
 }
