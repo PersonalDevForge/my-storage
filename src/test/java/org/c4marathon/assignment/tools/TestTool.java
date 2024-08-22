@@ -1,6 +1,7 @@
 package org.c4marathon.assignment.tools;
 
 import org.c4marathon.assignment.file.domain.entity.File;
+import org.c4marathon.assignment.share.domain.entity.Share;
 import org.c4marathon.assignment.user.domain.entity.User;
 
 public class TestTool {
