@@ -23,7 +23,8 @@ public class UploadFileToSharedFolderService implements UploadFileToSharedFolder
     public void uploadFileToSharedFolder(String uuid, String fileName, byte[] file) {
         Share share = getShareUseCase.getShare(uuid);
         shareValidator.validateFolderShare(share);
-        uploadFileUseCase.uploadFile(share.getUser(), fileName, share.getFolder().getId(), file);
+        Long folderId = share.getFolder() == null ? null : share.getFolder().getId();
+        uploadFileUseCase.uploadFile(share.getUser(), fileName, folderId, file);
     }
 
 }
