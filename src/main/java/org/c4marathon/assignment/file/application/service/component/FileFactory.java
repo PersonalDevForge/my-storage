@@ -1,5 +1,6 @@
 package org.c4marathon.assignment.file.application.service.component;
 
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -8,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Component
+@NoArgsConstructor
 public class FileFactory {
 
     public Path createPath(String path) {
@@ -20,6 +22,10 @@ public class FileFactory {
 
     public Path copyFile(Path origin, Path target) throws IOException {
         return Files.copy(origin, target);
+    }
+
+    public void deleteFile(Path path) throws IOException {
+        Files.delete(path);
     }
 
 }
