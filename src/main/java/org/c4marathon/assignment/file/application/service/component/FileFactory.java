@@ -24,4 +24,8 @@ public class FileFactory {
         return Files.copy(origin, target);
     }
 
+    public void deleteFile(Path path) throws IOException {
+        Files.delete(path);
+    }
+
 }

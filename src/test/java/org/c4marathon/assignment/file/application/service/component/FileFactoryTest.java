@@ -60,5 +60,18 @@ class FileFactoryTest {
         assertEquals(result.toString(), target.toString());
     }
 
+    @Test
+    @DisplayName("deleteFile() 메서드는 파일을 삭제한다.")
+    void deleteFile() throws IOException {
+        // given
+        Path path = Path.of("src/test/resources/test.txt");
+
+        // mock
+        mockStatic(Files.class);
+
+        // when & then
+        assertDoesNotThrow(() -> fileFactory.deleteFile(path));
+    }
+
 
 }
