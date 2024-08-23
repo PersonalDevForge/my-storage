@@ -1,6 +1,7 @@
 package org.c4marathon.assignment.folder.application.service;
 
 import lombok.RequiredArgsConstructor;
+import org.c4marathon.assignment.file.application.service.component.FileFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -9,12 +10,14 @@ import java.io.File;
 @RequiredArgsConstructor
 public class WriteFolderService {
 
+    private final FileFactory fileFactory;
+
     public String writeFolder(String email, String folderName, String parentFolderPath) {
         File file;
         if (parentFolderPath == null) {
-            file = new File("src/main/resources/upload/" + email + "/" + folderName);
+            file = fileFactory.createFile("src/main/resources/upload/" + email + "/" + folderName);
         } else {
-            file = new File(parentFolderPath + "/" + folderName);
+            file = fileFactory.createFile(parentFolderPath + "/" + folderName);
         }
 
         // 폴더가 이미 존재하는지 확인한다.

@@ -2,9 +2,9 @@ package org.c4marathon.assignment.folder.application.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.c4marathon.assignment.file.application.service.component.FileFactory;
 import org.c4marathon.assignment.folder.application.port.in.RenameFolderUseCase;
 import org.c4marathon.assignment.folder.application.port.in.UpdateSummaryUseCase;
-import org.c4marathon.assignment.folder.application.port.out.FolderCommandPort;
 import org.c4marathon.assignment.folder.application.port.out.FolderQueryPort;
 import org.c4marathon.assignment.folder.domain.entity.Folder;
 import org.c4marathon.assignment.user.domain.entity.User;
@@ -21,15 +21,15 @@ public class RenameFolderService implements RenameFolderUseCase {
 
     private final FolderQueryPort folderQueryPort;
 
-    private final FolderCommandPort folderCommandPort;
-
     private final UpdatePathService updatePathService;
 
     private final UpdateSummaryUseCase updateSummaryUseCase;
 
+    private final FileFactory fileFactory;
+
     private String renameActualFolder(Folder folder, String newFolderName) {
-        File file = new File(folder.getPath());
-        File existingFolder = new File(file.getParent() + File.separator + newFolderName);
+        File file = fileFactory.createFile(folder.getPath());
+        File existingFolder = fileFactory.createFile(file.getParent() + File.separator + newFolderName);
 
         if (existingFolder.exists()) {
             throw new IllegalArgumentException("Folder already exists");
